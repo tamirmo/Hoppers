@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+    <item android:drawable="@drawable/home_screen_frog_green_5" android:paddingTop="75dp" android:duration="120" />
+    <item android:drawable="@drawable/home_screen_frog_green_4" android:paddingTop="75dp" android:duration="120" />
+    <item android:drawable="@drawable/home_screen_frog_green_3" android:paddingTop="75dp" android:duration="120" />
+    <item android:drawable="@drawable/home_screen_frog_green_2" android:paddingTop="75dp" android:duration="120" />
+    <item android:drawable="@drawable/home_screen_frog_green_1" android:paddingTop="75dp" android:duration="120" />
+    <item android:drawable="@drawable/home_screen_frog_green_2" android:paddingTop="75dp" android:duration="120" />
+    <item android:drawable="@drawable/home_screen_frog_green_3" android:paddingTop="75dp" android:duration="120" />
+    <item android:drawable="@drawable/home_screen_frog_green_4" android:paddingTop="75dp" android:duration="120" />
+    <item android:drawable="@drawable/home_screen_frog_green_5" android:paddingTop="75dp" android:duration="1500" />
+</animation-list>

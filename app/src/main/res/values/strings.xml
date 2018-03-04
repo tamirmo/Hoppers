@@ -1,0 +1,39 @@
+<resources>
+    <string-array name="difficulties_array">
+        <item>Beginner</item>
+        <item>Intermediate</item>
+        <item>Advanced</item>
+        <item>Expert</item>
+    </string-array>
+
+    <string name="app_name">Hoppers</string>
+
+    <string name="multi_player_txt">Multi Player</string>
+    <string name="single_player_txt">Single Player</string>
+
+    <string name="no_bluetooth_support_err">This device has no Bluetooth support!</string>
+    <string name="not_bluetooth_discoverable">The device is not bluetooth discoverable!</string>
+    <string name="accepting_connections_err">Error accepting bluetooth connections!</string>
+    <string name="discoverable_err">Error setting device discoverable!</string>
+
+    <string name="no_response">No response!</string>
+    <string name="opponent_rejected">Opponent rejected!</string>
+
+    <string name="bluetooth_error">Bluetooth Error!</string>
+    <string name="unexpected_error">Sorry, Unexpected Error.</string>
+
+    <string name="no_bluetooth_devices_found">No hoppers found</string>
+    
+    <string name="incoming_request_msg">challenged you for a dual in</string>
+    <string name="level_msg">level</string>
+    <string name="accept_btn_text">Accept</string>
+    <string name="reject_btn_text">Reject</string>
+
+    <string name="choose_hopper_text">Choose hopper or wait for invitation</string>
+    <string name="choose_hopper_refused_text">Player refused, choose hopper or wait for invitation</string>
+    <string name="refresh_btn_text">Refresh</string>
+
+    <string name="connecting_text">Connecting</string>
+
+
+</resources>

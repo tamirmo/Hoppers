@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/main_layout"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/app_background">
+    <LinearLayout
+        android:id="@+id/choose_hopper_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:weightSum="20">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="@string/choose_hopper_text"
+            android:layout_margin="10dp"
+            android:textSize="22sp"
+            android:id="@+id/choose_hopper_text"
+            android:textColor="@color/text_color"
+            android:gravity="center_horizontal"
+            android:layout_weight="1.5"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/difficulties_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginBottom="10dp"
+            android:drawSelectorOnTop="true"
+            android:backgroundTint="@android:color/white"
+            android:entries="@array/difficulties_array"
+            android:layout_weight="2"/>
+
+        <FrameLayout
+            android:id="@+id/devices_list_frame"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="14">
+            <LinearLayout
+                android:id="@android:id/empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@android:id/empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/no_hoppers_image"
+                    android:layout_gravity="center_vertical|center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_bluetooth_devices_found"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_color"
+                    android:paddingLeft="30dp"/>
+            </LinearLayout>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@android:id/list"
+                android:dividerHeight="5sp"
+                android:divider="@null"
+                android:layout_margin="10dp"/>
+        </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/refresh"
+            android:layout_gravity="center|bottom"
+            android:background="@null"
+            android:layout_margin="10dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/connecting_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+        <ProgressBar
+            android:id="@+id/indeterminateBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:background="@drawable/progress_background"/>
+        <TextView
+            android:id="@+id/connecting_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connecting_text" />
+    </LinearLayout>
+</FrameLayout>
