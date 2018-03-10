@@ -5,4 +5,12 @@
     android:layout_height="match_parent"
     tools:context="hoppers.com.tamir.hoopers.bluetooth.BluetoothActivity"
     android:id="@+id/fragment_holder_layout"
-    android:background="@color/app_background" />
+    android:background="@color/app_background" >
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_small"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"/>
+</FrameLayout>

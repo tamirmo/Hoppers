@@ -14,6 +14,7 @@ final class SQLConstants {
     static final String CREATE_TABLE = "CREATE TABLE ";
     static final String COMMA = ",";
     static final String DESC = " DESC";
+    static final String ASC = " ASC";
     static final String SELECT = "SELECT ";
     static final String ALL = " *";
     static final String MIN = " min";

@@ -8,4 +8,9 @@
     <color name="bluetooth_hopper_background">#4e3b6d</color>
     <color name="progress_bar_start">#4e3b6d</color>
     <color name="progress_bar_end">@android:color/holo_orange_light</color>
+
+    <color name="beginner">#a5af00</color>
+    <color name="intermediate">#dea534</color>
+    <color name="advanced">#225a78</color>
+    <color name="expert">@android:color/holo_red_dark</color>
 </resources>

@@ -21,7 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".bluetooth.BluetoothActivity"></activity>
+        <activity android:name=".bluetooth.BluetoothActivity" />
+        <activity android:name=".levels.LevelsActivity" />
+        <activity android:name=".board.GameBoardActivity"></activity>
     </application>
 
 </manifest>

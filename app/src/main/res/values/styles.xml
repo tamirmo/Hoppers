@@ -11,4 +11,31 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/text_color</item>
     </style>
+
+    <style name="evenRowLeaf">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+
+    <style name="evenRowLeftLeaf" parent="evenRowLeaf">
+        <item name="android:gravity">left</item>
+        <item name="android:layout_marginRight">80dp</item>
+    </style>
+
+    <style name="evenRowRightLeaf" parent="evenRowLeaf">
+        <item name="android:gravity">left</item>
+        <item name="android:layout_marginLeft">80dp</item>
+    </style>
+
+    <style name="oddRowLeftLeaf">
+        <item name="android:gravity">right</item>
+        <item name="android:layout_marginRight">30dp</item>
+    </style>
+
+    <style name="oddRowRightLeaf">
+        <item name="android:layout_marginRight">70dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_column">2</item>
+    </style>
 </resources>

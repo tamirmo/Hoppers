@@ -59,6 +59,10 @@ public class GameManager {
         this.gameDurationChangedListener = listener;
     }
 
+    public boolean isRemoteOpponent() {
+        return isRemoteOpponent;
+    }
+
     public List<Level> getLevels(){
         return levels;
     }
@@ -128,7 +132,7 @@ public class GameManager {
                 0,
                 0,
                 0,
-                false);
+                true);
 
         levelsDbHelper.addLevel(level.toLevelRecord());
 
@@ -151,9 +155,9 @@ public class GameManager {
                 greenFrogsLocations,
                 solution,
                 0,
-                0,
-                0,
-                false);
+                12,
+                11,
+                true);
 
         levelsDbHelper.addLevel(level.toLevelRecord());
 
@@ -308,10 +312,11 @@ public class GameManager {
         solution.add(new Hop(new LeafCoordinate(4, 2), new LeafCoordinate(4, 0), new LeafCoordinate(4, 1)));
         solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(0, 0), new LeafCoordinate(2, 0)));
         solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(2, 1), new LeafCoordinate(1, 0)));
+        solution.add(new Hop(new LeafCoordinate(1, 1), new LeafCoordinate(3, 0), new LeafCoordinate(2, 1)));
 
-        Level level = new Level(DIFFICULTY.INTERMEDIATE,
-                12,
-                LeafCoordinate.getCellIndex(3, 1),
+        Level level = new Level(DIFFICULTY.ADVANCED,
+                21,
+                LeafCoordinate.getCellIndex(3, 0),
                 greenFrogsLocations,
                 solution,
                 0,
@@ -321,21 +326,24 @@ public class GameManager {
 
         levelsDbHelper.addLevel(level.toLevelRecord());
 
-        greenFrogsLocations = new int[6];
+        greenFrogsLocations = new int[8];
         greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
         greenFrogsLocations[1] = LeafCoordinate.getCellIndex(0, 1);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(1, 1);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(2, 0);
-        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(2, 2);
-        greenFrogsLocations[5] = LeafCoordinate.getCellIndex(3, 0);
+        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(1, 0);
+        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(1, 1);
+        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(2, 0);
+        greenFrogsLocations[5] = LeafCoordinate.getCellIndex(2, 1);
+        greenFrogsLocations[6] = LeafCoordinate.getCellIndex(3, 1);
+        greenFrogsLocations[7] = LeafCoordinate.getCellIndex(4, 2);
 
         solution = new ArrayList<>();
         solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(0, 2), new LeafCoordinate(0, 1)));
+        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
         solution.add(new Hop(new LeafCoordinate(2, 2), new LeafCoordinate(0, 1), new LeafCoordinate(1, 1)));
         solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(0, 0), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(4, 0), new LeafCoordinate(2, 0)));
-        solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(2, 1), new LeafCoordinate(3, 0)));
-        solution.add(new Hop(new LeafCoordinate(4, 1), new LeafCoordinate(0, 1), new LeafCoordinate(2, 1)));
+        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(2, 1), new LeafCoordinate(1, 0)));
+        solution.add(new Hop(new LeafCoordinate(3, 0), new LeafCoordinate(1, 1), new LeafCoordinate(2, 1)));
+        solution.add(new Hop(new LeafCoordinate(4, 2), new LeafCoordinate(2, 1), new LeafCoordinate(3, 1)));
         solution.add(new Hop(new LeafCoordinate(1, 1), new LeafCoordinate(3, 0), new LeafCoordinate(2, 1)));
 
         level = new Level(DIFFICULTY.ADVANCED,
@@ -354,6 +362,41 @@ public class GameManager {
     private void initializeExpert(){
         int[] greenFrogsLocations = new int[9];
         greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
+        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(0, 1);
+        greenFrogsLocations[2] = LeafCoordinate.getCellIndex( 1, 0);
+        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(1, 1);
+        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(2, 1);
+        greenFrogsLocations[5] = LeafCoordinate.getCellIndex(3, 1);
+        greenFrogsLocations[6] = LeafCoordinate.getCellIndex(4, 0);
+        greenFrogsLocations[7] = LeafCoordinate.getCellIndex(4, 1);
+        greenFrogsLocations[8] = LeafCoordinate.getCellIndex(4, 2);
+
+        List<Hop> solution = new ArrayList<>();
+        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
+        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(0, 2), new LeafCoordinate(0, 1)));
+        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(2, 1), new LeafCoordinate(1, 1)));
+        solution.add(new Hop(new LeafCoordinate(2, 2), new LeafCoordinate(2, 0), new LeafCoordinate(2, 1)));
+        solution.add(new Hop(new LeafCoordinate(4, 2), new LeafCoordinate(2, 1), new LeafCoordinate(3, 1)));
+        solution.add(new Hop(new LeafCoordinate(1, 0), new LeafCoordinate(3, 1), new LeafCoordinate(2, 1)));
+        solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(4, 2), new LeafCoordinate(4, 1)));
+        solution.add(new Hop(new LeafCoordinate(4, 2), new LeafCoordinate(2, 1), new LeafCoordinate(3, 1)));
+        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
+
+
+        Level level = new Level(DIFFICULTY.EXPERT,
+                31,
+                LeafCoordinate.getCellIndex(2, 0),
+                greenFrogsLocations,
+                solution,
+                0,
+                0,
+                0,
+                false);
+
+        levelsDbHelper.addLevel(level.toLevelRecord());
+
+        greenFrogsLocations = new int[9];
+        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
         greenFrogsLocations[1] = LeafCoordinate.getCellIndex(2, 0);
         greenFrogsLocations[2] = LeafCoordinate.getCellIndex(4, 0);
         greenFrogsLocations[3] = LeafCoordinate.getCellIndex(1, 0);
@@ -363,7 +406,7 @@ public class GameManager {
         greenFrogsLocations[7] = LeafCoordinate.getCellIndex(0, 2);
         greenFrogsLocations[8] = LeafCoordinate.getCellIndex(2, 2);
 
-        List<Hop> solution = new ArrayList<>();
+        solution = new ArrayList<>();
         solution.add(new Hop(new LeafCoordinate(2, 1), new LeafCoordinate(4, 2), new LeafCoordinate(3, 1)));
         solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(2, 1), new LeafCoordinate(3, 0)));
         solution.add(new Hop(new LeafCoordinate(1, 0), new LeafCoordinate(3, 1), new LeafCoordinate(2, 1)));
@@ -374,38 +417,9 @@ public class GameManager {
         solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
         solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(4, 2), new LeafCoordinate(2, 2)));
 
-        Level level = new Level(DIFFICULTY.EXPERT,
-                33,
+        level = new Level(DIFFICULTY.EXPERT,
+                32,
                 LeafCoordinate.getCellIndex(2, 1),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-
-        greenFrogsLocations = new int[6];
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(0, 1);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(1, 1);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(2, 0);
-        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(2, 2);
-        greenFrogsLocations[5] = LeafCoordinate.getCellIndex(3, 0);
-
-        solution = new ArrayList<>();
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(0, 2), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(2, 2), new LeafCoordinate(0, 1), new LeafCoordinate(1, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(0, 0), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(4, 0), new LeafCoordinate(2, 0)));
-        solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(2, 1), new LeafCoordinate(3, 0)));
-        solution.add(new Hop(new LeafCoordinate(4, 1), new LeafCoordinate(0, 1), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(1, 1), new LeafCoordinate(3, 0), new LeafCoordinate(2, 1)));
-
-        level = new Level(DIFFICULTY.ADVANCED,
-                13,
-                LeafCoordinate.getCellIndex(3, 0),
                 greenFrogsLocations,
                 solution,
                 0,
@@ -423,6 +437,8 @@ public class GameManager {
         swamp = new Swamp();
         hops = new Stack<>();
 
+        levelsDbHelper.dropDb();
+
         initializeBeginner();
         initializeIntermediate();
         initializeAdvanced();
@@ -439,7 +455,7 @@ public class GameManager {
     }
 
     public void startGame(int levelId, boolean isRemoteOpponent){
-        currLevel = levels.get(levelId);
+        currLevel = levels.get(levelId - 1);
         seconds = minutes = hours = 0;
         this.isRemoteOpponent = isRemoteOpponent;
 
@@ -480,6 +496,22 @@ public class GameManager {
         return prevHop;
     }
 
+    public Leaf getLeaf(int index){
+        Leaf leaf = null;
+
+        if(swamp != null){
+            leaf = swamp.getLeaf(new LeafCoordinate(index));
+        }
+
+        return leaf;
+    }
+
+    public void setSelectedLeaf(int index){
+        if(swamp != null){
+            swamp.selectLeaf(new LeafCoordinate(index));
+        }
+    }
+
     /**
      * Make the given hop on the swamp
      * (called in show solution process)
@@ -490,14 +522,17 @@ public class GameManager {
     }
 
     private void startTimer(){
-        // Starting a timer for each second to increase game time duration:
-        playTimeTimer = new Timer(false);
-        playTimeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                increaseTime();
-            }
-        }, 1000);
+        // Starting only if not already running
+        if(playTimeTimer == null) {
+            // Starting a timer for each second to increase game time duration:
+            playTimeTimer = new Timer(false);
+            playTimeTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    increaseTime();
+                }
+            }, 1000, 1000);
+        }
     }
 
     private void increaseTime(){
@@ -522,6 +557,7 @@ public class GameManager {
     public void pauseGame(){
         if(playTimeTimer != null){
             playTimeTimer.cancel();
+            playTimeTimer = null;
         }
     }
 
@@ -544,89 +580,18 @@ public class GameManager {
 
             // Searching for the frog eaten:
 
-            LeafCoordinate eatenFrogCord = new LeafCoordinate();
+            LeafCoordinate eatenFrogCord;
 
-            int dstRow = destinationLeafCord.getRow();
-            int dstCol = destinationLeafCord.getColumn();
-            int origRow = swamp.getSelectedFrogCord().getRow();
-            int origCol = swamp.getSelectedFrogCord().getColumn();
-
-            // if the eating frog hopped left
-            if(dstCol  < origCol){
-                // The location of the eaten frog is next to it
-                eatenFrogCord.setColumn(dstCol + 1);
-                //dstCol + 1;
-            }
-            // if the eating frog hopped right
-            else if(dstCol  > origCol){
-                // The location of the eaten frog is next to it
-                eatenFrogCord.setColumn(dstCol - 1);
-                // The location of the eaten frog is ont leaf before it
-                //destinationLeafCord.getColumn() - 1;
-            }
-            // The eaten frog and the eating frog are at the same column
-            else{
-                eatenFrogCord.setColumn(dstCol);
-            }
-
-            // if the eating frog hopped down
-            if(dstRow  < origRow){
-                // The location of the eaten frog is above to it
-                eatenFrogCord.setRow(dstRow + 1);
-                // dstRow + 1;
-            }
-            // if the eating frog hopped up
-            else if(dstRow  > origRow){
-                // The location of the eaten frog is ont leaf below it
-                eatenFrogCord.setRow(dstRow - 1);
-                //dstRow - 1
-            }
-            // The eaten frog and the eating frog are at the same row
-            else{
-                eatenFrogCord.setRow(dstRow);
-            }
-
-            // Removing the eaten frog from the game
-            swamp.getLeaf(eatenFrogCord).setType(LEAF_TYPE.EMPTY);
+            eatenFrogCord = getEatenFrogLeaf(swamp.getSelectedFrogCord(), destinationLeafCord);
 
             hop = new Hop(swamp.getSelectedFrogCord(), destinationLeafCord, eatenFrogCord);
+
+            // Removing the eaten frog from the game and moving the hopped frog
+            swamp.makeHop(hop);
 
             turnResult.setHop(hop);
             turnResult.setResult(TURN_RESULT.HOP);
             hops.add(hop);
-
-            // If the eating frog stayed in the same row
-            /*if(dstRow == origRow){
-                // if the eating frog hopped left
-                if(dstCol  < origCol){
-                    // The location of the eaten frog is next to it
-                    //dstCol + 1;
-                }
-                // if the eating frog hopped right
-                else{
-                    // The location of the eaten frog is ont leaf before it
-                    //destinationLeafCord.getColumn() - 1;
-                }
-            }
-            // The eating frog moved a row
-            else {
-                if(dstCol == origCol){
-                    // if the eating frog hopped down
-                    if(dstRow  < origRow){
-                        // The location of the eaten frog is above to it
-                        // dstRow + 1;
-                    }
-                    // if the eating frog hopped right
-                    else{
-                        // The location of the eaten frog is ont leaf below it
-                        //dstRow - 1;
-                    }
-                }
-                // A diagonal hop
-                else{
-
-                }
-            }*/
         }
         else {
             turnResult.setResult(TURN_RESULT.INVALID_HOP);
@@ -646,6 +611,128 @@ public class GameManager {
         }
 
         return turnResult;
+    }
+
+    /**
+     * Calculating the eaten frog in the hop that a frog that it's coordinates are given to the given destFrogIndex.
+     * @param originalLeaf The original coordinates of the frog hopping
+     * @param destinationLeafCord The index of the leaf hopping to
+     * @return LeafCoordinate The coordinates of the eaten frog
+     */
+    private LeafCoordinate getEatenFrogLeaf(LeafCoordinate originalLeaf, LeafCoordinate destinationLeafCord){
+        int originalFrogRow = originalLeaf.getRow();
+        int originalFrogCol = originalLeaf.getColumn();
+        int destFrogIndex = LeafCoordinate.getCellIndex(destinationLeafCord.getRow(), destinationLeafCord.getColumn());
+
+        LeafCoordinate eatenFrog = null;
+
+        // Tf the frog is a row with 3 columns
+        if(originalFrogRow % 2 == 0){
+            eatenFrog = getEatenFrogLeafEvenRow(destFrogIndex, originalFrogRow, originalFrogCol);
+        }else{
+            eatenFrog = getEatenFrogLeafOddRow(destFrogIndex, originalFrogRow, originalFrogCol);
+        }
+
+        return eatenFrog;
+    }
+
+    /**
+     * Calculating the eaten frog in the hop that a frog that it's coordinates are given to the given destFrogIndex.
+     * (This method is for a leaf that has 3 frogs in it's row [even row number])
+     * @param destFrogIndex The index of the leaf hopping to
+     * @param originalFrogRow The original row of the frog hopping
+     * @param originalFrogCol The original column of the frog hopping
+     * @return LeafCoordinate The coordinates of the eaten frog
+     */
+    private LeafCoordinate getEatenFrogLeafEvenRow(int destFrogIndex,
+                                                   int originalFrogRow,
+                                                   int originalFrogCol){
+        LeafCoordinate eatenFrog = null;
+
+        // Handling the "straight" hop
+        // (not available for frogs in a row with two leaves):
+
+        // Hop down
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow + 4, originalFrogCol)){
+            eatenFrog = new LeafCoordinate(originalFrogRow + 2, originalFrogCol);
+        }
+
+        // Hop up
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow - 4, originalFrogCol)){
+            eatenFrog = new LeafCoordinate(originalFrogRow - 2, originalFrogCol);
+        }
+
+        // Hop right
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow, originalFrogCol + 2)){
+            eatenFrog = new LeafCoordinate(originalFrogRow, originalFrogCol + 1);
+        }
+
+        // Hop left
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow, originalFrogCol - 2)){
+            eatenFrog = new LeafCoordinate(originalFrogRow, originalFrogCol - 1);
+        }
+
+        // Handling the "diagonal" hop:
+
+        // Diagonal down left
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow + 2, originalFrogCol - 1)){
+            eatenFrog = new LeafCoordinate(originalFrogRow + 1, originalFrogCol - 1);
+        }
+
+        // Diagonal down right
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow + 2, originalFrogCol + 1)){
+            eatenFrog = new LeafCoordinate(originalFrogRow + 1, originalFrogCol);
+        }
+
+        // Diagonal up left
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow - 2, originalFrogCol - 1)){
+            eatenFrog = new LeafCoordinate(originalFrogRow - 1, originalFrogCol - 1);
+        }
+
+        // Diagonal up right
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow - 2, originalFrogCol + 1)){
+            eatenFrog = new LeafCoordinate(originalFrogRow - 1, originalFrogCol);
+        }
+
+        return eatenFrog;
+    }
+
+    /**
+     * Calculating the eaten frog in the hop that a frog that it's coordinates are given to the given destFrogIndex.
+     * (This method is for a leaf that has 2 frogs in it's row [odd row number])
+     * @param destFrogIndex The index of the leaf hopping to
+     * @param originalFrogRow The original row of the frog hopping
+     * @param originalFrogCol The original column of the frog hopping
+     * @return LeafCoordinate The coordinates of the eaten frog
+     */
+    private LeafCoordinate getEatenFrogLeafOddRow(int destFrogIndex,
+                                                   int originalFrogRow,
+                                                   int originalFrogCol){
+        LeafCoordinate eatenFrog = null;
+
+        // Handling the "diagonal" hop:
+
+        // Diagonal down left
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow + 2, originalFrogCol - 1)){
+            eatenFrog = new LeafCoordinate(originalFrogRow + 1, originalFrogCol);
+        }
+
+        // Diagonal down right
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow + 2, originalFrogCol + 1)){
+            eatenFrog = new LeafCoordinate(originalFrogRow + 1, originalFrogCol + 1);
+        }
+
+        // Diagonal up left
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow - 2, originalFrogCol - 1)){
+            eatenFrog = new LeafCoordinate(originalFrogRow - 1, originalFrogCol);
+        }
+
+        // Diagonal up right
+        if(destFrogIndex == LeafCoordinate.getCellIndex(originalFrogRow - 2, originalFrogCol + 1)){
+            eatenFrog = new LeafCoordinate(originalFrogRow - 1, originalFrogCol + 1);
+        }
+
+        return eatenFrog;
     }
 
     private boolean isGameDurationRecord(){
@@ -682,22 +769,34 @@ public class GameManager {
             swamp.getLeaf(lastHop.getFrogOriginalLeaf()).setType(eatingFrog);
             swamp.getLeaf(lastHop.getFrogHoppedLeaf()).setType(LEAF_TYPE.EMPTY);
 
+            // The last selected is not relevant anymore
+            swamp.clearSelectedLeaf();
+
             wasHoppedBack = true;
         }
 
         return wasHoppedBack;
     }
 
-    public int getRandomLevel(DIFFICULTY difficulty){
+    /**
+     * Creates a list of all levels in the given difficulty
+     * @param difficulty The difficulty to get levels of
+     * @return A list of levels in the given difficulty
+     */
+    public List<Level> getLevelsByDifficulty(DIFFICULTY difficulty){
 
-        // Creating a list of all levels in the given difficulty:
-
-        List<Level> chosenDifficultyLevels = new ArrayList<>();
+        List<Level> difficultyLevels = new ArrayList<>();
         for (Level level : levels){
             if (level.getDifficulty() == difficulty){
-                chosenDifficultyLevels.add(level);
+                difficultyLevels.add(level);
             }
         }
+
+        return difficultyLevels;
+    }
+
+    public int getRandomLevel(DIFFICULTY difficulty){
+        List<Level> chosenDifficultyLevels = getLevelsByDifficulty(difficulty);
 
         // Choosing a random level:
 
@@ -709,10 +808,8 @@ public class GameManager {
 
     /**
      * Returns a random number between 0 and max, inclusive.
-     * The difference between 0 and max can be at most
-     * <code>Integer.MAX_VALUE - 1</code>.
      *
-     * @param max Maximum value.  Must be greater than min.
+     * @param max Maximum value.
      * @return Integer between 0 and max, inclusive.
      * @see java.util.Random#nextInt(int)
      */

@@ -104,6 +104,10 @@ public class Level {
         this.recordHours = recordHours;
     }
 
+    public boolean isSolved(){
+        return this.recordHours != 0 || this.recordMinutes != 0 || this.recordSeconds != 0;
+    }
+
     public Level(DIFFICULTY difficulty,
             int id,
 
@@ -155,7 +159,7 @@ public class Level {
 
         if(levelRecord.getSolution() != null){
             // Splitting the Hops
-            String[] hops = levelRecord.getSolution().split(SOLUTION_HOPS_SEPARATOR);
+            String[] hops = levelRecord.getSolution().split("\\" + SOLUTION_HOPS_SEPARATOR);
 
             solution = new ArrayList<>();
 
@@ -221,5 +225,9 @@ public class Level {
         }
 
         return greenFrogsLocations.toString();
+    }
+
+    public String getRecordString(){
+        return String.format("%02d:%02d:%02d", this.recordHours, this.recordMinutes, this.recordSeconds);
     }
 }

@@ -1,8 +1,5 @@
 package logic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Tamir on 24/02/2018.
  * A class representing the game board.
@@ -25,10 +22,6 @@ public class Swamp {
         return selectedFrogCord;
     }
 
-    public void setSelectedFrogCord(LeafCoordinate selectedFrogCord) {
-        this.selectedFrogCord = selectedFrogCord;
-    }
-
     public Swamp(){
         leaves = new Leaf[5][];
 
@@ -38,7 +31,7 @@ public class Swamp {
         leaves[1] = new Leaf[2];
         leaves[2] = new Leaf[3];
         leaves[3] = new Leaf[2];
-        leaves[3] = new Leaf[3];
+        leaves[4] = new Leaf[3];
     }
 
     public void setLevel(Level level){
@@ -46,6 +39,7 @@ public class Swamp {
         // Emptying all leaves
         for(int i = 0 ; i < leaves.length; i ++){
             for(int j = 0; j < leaves[i].length; j ++){
+                leaves[i][j] = new Leaf();
                 leaves[i][j].setType(LEAF_TYPE.EMPTY);
                 leaves[i][j].setValidHop(false);
                 leaves[i][j].setSelected(false);
@@ -79,15 +73,16 @@ public class Swamp {
         Leaf leaf = null;
 
         // Checking if the indexes represent valid leaves
-        if(leaves.length < coordinate.getRow() &&
-                leaves[coordinate.getRow()].length < coordinate.getColumn()){
+        if(coordinate.getRow() >= 0 &&
+                coordinate.getColumn() >= 0 &&
+                leaves.length > coordinate.getRow() &&
+                leaves[coordinate.getRow()].length > coordinate.getColumn()){
             // Getting the leaf in the desired space
             leaf = leaves[coordinate.getRow()][coordinate.getColumn()];
         }
 
         return leaf;
     }
-
 
     public void makeHop(Hop hop){
         getLeaf(hop.getEatenFrogLeaf()).setType(LEAF_TYPE.EMPTY);
@@ -97,6 +92,24 @@ public class Swamp {
 
         // Setting the destination leaf with the hopped frog
         getLeaf(hop.getFrogHoppedLeaf()).setType(frog);
+
+        clearSelectedLeaf();
+    }
+
+    /**
+     * Setting no selected leaf and setting all leaves as non valid for hop
+     */
+    void clearSelectedLeaf(){
+        selectedFrogCord = null;
+
+        // Clearing last selected:
+
+        for(int i = 0 ; i < leaves.length; i ++){
+            for(int j = 0; j < leaves[i].length; j ++){
+                leaves[i][j].setSelected(false);
+                leaves[i][j].setValidHop(false);
+            }
+        }
     }
 
     /**
@@ -113,6 +126,8 @@ public class Swamp {
 
         // Setting the original leaf with the hopped frog
         getLeaf(hop.getFrogOriginalLeaf()).setType(frog);
+
+        clearSelectedLeaf();
     }
 
     public void selectLeaf(LeafCoordinate coordinate){
@@ -147,48 +162,88 @@ public class Swamp {
         int selectedFrogColumn = selectedFrogLeaf.getColumn();
 
         // Tf the frog is a row with 3 columns
-        if(selectedFrogLeaf.getColumn() % 2 == 0){
+        if(selectedFrogLeaf.getRow() % 2 == 0){
             // Handling the "straight" hop
             // (not available for frogs in a row with two leaves):
 
+            // Hop down
             if(isValidHop(new LeafCoordinate(selectedFrogRow + 4, selectedFrogColumn),
-                    new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn))){
+                    new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn))){
 
                 getLeaf(new LeafCoordinate(selectedFrogRow + 4, selectedFrogColumn)).setValidHop(true);
             }
 
+            // Hop up
             if(isValidHop(new LeafCoordinate(selectedFrogRow - 4, selectedFrogColumn),
-                    new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn))){
+                    new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn))){
                 getLeaf(new LeafCoordinate(selectedFrogRow - 4, selectedFrogColumn)).setValidHop(true);
             }
+
+            // Hop right
+            if(isValidHop(new LeafCoordinate(selectedFrogRow, selectedFrogColumn + 2),
+                    new LeafCoordinate(selectedFrogRow, selectedFrogColumn + 1))){
+
+                getLeaf(new LeafCoordinate(selectedFrogRow, selectedFrogColumn + 2)).setValidHop(true);
+            }
+
+            // Hop left
+            if(isValidHop(new LeafCoordinate(selectedFrogRow, selectedFrogColumn - 2),
+                    new LeafCoordinate(selectedFrogRow, selectedFrogColumn - 1))){
+                getLeaf(new LeafCoordinate(selectedFrogRow, selectedFrogColumn - 2)).setValidHop(true);
+            }
+
+            // Handling the "diagonal" hop:
+
+            // Diagonal down left
+            if(isValidHop(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn - 1),
+                    new LeafCoordinate(selectedFrogRow + 1, selectedFrogColumn - 1))){
+                getLeaf(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn - 1)).setValidHop(true);
+            }
+
+            // Diagonal down right
+            if(isValidHop(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn + 1),
+                    new LeafCoordinate(selectedFrogRow + 1, selectedFrogColumn))){
+                getLeaf(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn + 1)).setValidHop(true);
+            }
+
+            // Diagonal up left
+            if(isValidHop(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn - 1),
+                    new LeafCoordinate(selectedFrogRow - 1, selectedFrogColumn - 1))){
+                getLeaf(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn - 1)).setValidHop(true);
+            }
+
+            // Diagonal up right
+            if(isValidHop(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn + 1),
+                    new LeafCoordinate(selectedFrogRow - 1, selectedFrogColumn))){
+                getLeaf(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn + 1)).setValidHop(true);
+            }
+        }else{
+            // Handling the "diagonal" hop:
+
+            // Diagonal down left
+            if(isValidHop(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn - 1),
+                    new LeafCoordinate(selectedFrogRow + 1, selectedFrogColumn))){
+                getLeaf(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn - 1)).setValidHop(true);
+            }
+
+            // Diagonal down right
+            if(isValidHop(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn + 1),
+                    new LeafCoordinate(selectedFrogRow + 1, selectedFrogColumn + 1))){
+                getLeaf(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn + 1)).setValidHop(true);
+            }
+
+            // Diagonal up left
+            if(isValidHop(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn - 1),
+                    new LeafCoordinate(selectedFrogRow - 1, selectedFrogColumn))){
+                getLeaf(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn - 1)).setValidHop(true);
+            }
+
+            // Diagonal up right
+            if(isValidHop(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn + 1),
+                    new LeafCoordinate(selectedFrogRow - 1, selectedFrogColumn + 1))){
+                getLeaf(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn + 1)).setValidHop(true);
+            }
         }
-
-        // Handling the "diagonal" hop:
-
-        // Diagonal down left
-        if(isValidHop(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn - 1),
-                new LeafCoordinate(selectedFrogRow + 1, selectedFrogColumn - 1))){
-            getLeaf(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn - 1)).setValidHop(true);
-        }
-
-        // Diagonal up right
-        if(isValidHop(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn + 1),
-                new LeafCoordinate(selectedFrogRow + 1, selectedFrogColumn + 1))){
-            getLeaf(new LeafCoordinate(selectedFrogRow + 2, selectedFrogColumn + 1)).setValidHop(true);
-        }
-
-        // Diagonal down left
-        if(isValidHop(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn - 1),
-                new LeafCoordinate(selectedFrogRow - 1, selectedFrogColumn - 1))){
-            getLeaf(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn - 1)).setValidHop(true);
-        }
-
-        // Diagonal down right
-        if(isValidHop(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn + 1),
-                new LeafCoordinate(selectedFrogRow - 1, selectedFrogColumn + 1))){
-            getLeaf(new LeafCoordinate(selectedFrogRow - 2, selectedFrogColumn + 1)).setValidHop(true);
-        }
-
     }
 
     /**

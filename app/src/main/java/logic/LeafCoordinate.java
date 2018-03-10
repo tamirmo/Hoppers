@@ -4,7 +4,7 @@ package logic;
  * This class represents a leaf's cell coordinates (row and column)
  */
 
-class LeafCoordinate{
+public class LeafCoordinate{
     private final static String COORDINATE_SEPARATOR = "#";
 
     private int row;
@@ -18,11 +18,11 @@ class LeafCoordinate{
         this.column = column;
     }
 
-    int getRow() {
+    public int getRow() {
         return row;
     }
 
-    int getColumn() {
+    public int getColumn() {
         return column;
     }
 
@@ -33,11 +33,11 @@ class LeafCoordinate{
         this.column = column;
     }
 
-    LeafCoordinate(int cellIndex){
+    public LeafCoordinate(int cellIndex){
         int indexCopy = cellIndex, currRow = 0;
 
         // Subtracting the columns in each row until reaching zero
-        while (indexCopy > 0){
+        while (indexCopy >= 0){
             if(currRow %2 == 0){
                 indexCopy -= 3;
             }
@@ -46,6 +46,9 @@ class LeafCoordinate{
             }
             currRow ++;
         }
+
+        // The last increment was wrong
+        currRow--;
 
         // To get the column, we need to add the last row's count:
 
@@ -62,7 +65,7 @@ class LeafCoordinate{
 
     LeafCoordinate(String coordinateString){
         if(coordinateString != null &&
-                coordinateString.length() == 2){
+                coordinateString.length() == 3){
             String[] splitCoordinate = coordinateString.split(COORDINATE_SEPARATOR);
             if(splitCoordinate.length == 2){
                 row = Integer.parseInt(splitCoordinate[0]);

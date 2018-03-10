@@ -22,6 +22,13 @@ public class LevelsDbHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    public void dropDb(){
+        // Gets the data repository in write mode
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.execSQL("DELETE FROM Level");
+    }
+
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(LevelsDBContract.Level.SQL_CREATE_LEVELS);
@@ -47,6 +54,7 @@ public class LevelsDbHelper extends SQLiteOpenHelper {
             values.put(Level.COLUMN_NAME_HIGH_SCORE_SECONDS, recordToInsert.getHighScoreSeconds());
             values.put(Level.COLUMN_NAME_IS_SOLUTION_VIEWED, recordToInsert.getIsSolutionViewed());
             values.put(Level.COLUMN_NAME_RED_FROG_LOCATION, recordToInsert.getRedFrogLocation());
+            values.put(Level.COLUMN_NAME_SOLUTION, recordToInsert.getSolution());
 
             // Insert the new row, returning the primary key value of the new row
             newRowId = (int)db.insert(Level.TABLE_NAME, null, values);
@@ -71,7 +79,7 @@ public class LevelsDbHelper extends SQLiteOpenHelper {
         try {
             // How you want the results sorted in the resulting Cursor
             String sortOrder =
-                    Level._ID + SQLConstants.DESC;
+                    Level._ID + SQLConstants.ASC;
 
             cursor = db.query(
                     Level.TABLE_NAME,                     // The table to query

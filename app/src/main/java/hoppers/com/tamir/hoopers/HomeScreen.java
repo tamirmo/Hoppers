@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
 import bluetooth.BluetoothConnectionHandler;
 import hoppers.com.tamir.hoopers.bluetooth.BluetoothActivity;
+import hoppers.com.tamir.hoopers.levels.LevelsActivity;
+import logic.GameManager;
 
 public class HomeScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,18 +28,21 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        ImageButton multiPlayerBtn = findViewById(R.id.multiPlayerImage);
-        ImageButton singlePlayerBtn = findViewById(R.id.singlePlayerImage);
+        // TODO: Move this from here and make an async task
+        GameManager.getInstance().initializeManager(this);
+
+        ImageButton multiPlayerBtn = (ImageButton) findViewById(R.id.multiPlayerImage);
+        ImageButton singlePlayerBtn = (ImageButton) findViewById(R.id.singlePlayerImage);
         multiPlayerBtn.setOnClickListener(this);
         singlePlayerBtn.setOnClickListener(this);
 
         // Preparing for the frogs animation:
 
-        ImageView redFrogImage = findViewById(R.id.home_screen_red_frog);
+        ImageView redFrogImage = (ImageView) findViewById(R.id.home_screen_red_frog);
         redFrogImage.setBackgroundResource(R.drawable.red_frog_animation);
         redFrogAnimation = (AnimationDrawable) redFrogImage.getBackground();
 
-        ImageView greenFrogImage = findViewById(R.id.home_screen_green_frog);
+        ImageView greenFrogImage = (ImageView) findViewById(R.id.home_screen_green_frog);
         greenFrogImage.setBackgroundResource(R.drawable.green_frog_animation);
         greenFrogAnimation = (AnimationDrawable) greenFrogImage.getBackground();
     }
@@ -73,10 +77,13 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         if(view.getId() == R.id.multiPlayerImage) {
             // Moving to the bluetooth activity:
 
-            Intent highScoresIntent = new Intent(this, BluetoothActivity.class);
-            startActivity(highScoresIntent);
+            Intent bluetoothIntent = new Intent(this, BluetoothActivity.class);
+            startActivity(bluetoothIntent);
         }else if(view.getId() == R.id.singlePlayerImage){
-            Toast.makeText(this, "Working on it", Toast.LENGTH_SHORT).show();
+            // Moving to the levels activity:
+
+            Intent levelsIntent = new Intent(this, LevelsActivity.class);
+            startActivity(levelsIntent);
         }
     }
 }

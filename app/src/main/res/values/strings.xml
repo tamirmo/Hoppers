@@ -23,17 +23,31 @@
     <string name="unexpected_error">Sorry, Unexpected Error.</string>
 
     <string name="no_bluetooth_devices_found">No hoppers found</string>
-    
+
     <string name="incoming_request_msg">challenged you for a dual in</string>
     <string name="level_msg">level</string>
     <string name="accept_btn_text">Accept</string>
     <string name="reject_btn_text">Reject</string>
 
-    <string name="choose_hopper_text">Choose hopper or wait for invitation</string>
+    <string name="choose_hopper_text">Choose hopper and difficulty\n or wait for invitation</string>
     <string name="choose_hopper_refused_text">Player refused, choose hopper or wait for invitation</string>
     <string name="refresh_btn_text">Refresh</string>
 
     <string name="connecting_text">Connecting</string>
+
+
+    <string name="choose_level_text">Choose Level</string>
+
+    <string name="record">Record: </string>
+
+    <string name="time_played_text">Time Played: </string>
+    <string name="view_solution_text">View solution</string>
+    <string name="undo">Undo</string>
+
+    <string name="beginner">Beginner</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="advanced">Advanced</string>
+    <string name="expert">Expert</string>
 
 
 </resources>
