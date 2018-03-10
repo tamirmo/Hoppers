@@ -17,6 +17,5 @@
         android:src="@drawable/green_frog_board"
         android:background="@null"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"
         android:duplicateParentState="true"/>
 </RelativeLayout>

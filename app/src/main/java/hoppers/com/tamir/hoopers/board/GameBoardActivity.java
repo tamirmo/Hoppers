@@ -36,7 +36,7 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
 
     private int levelNum;
     private boolean isBluetoothGame;
-
+// Reducing
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +108,9 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
             // When viewing solution,
             // undo button should not be active
             undoButton.setVisibility(View.GONE);
+
+            // Refreshing view cause we are back to the beginning
+            boardAdapter.updateBoard();
         } else if(view.getId() == R.id.previous_solution_step_btn){
             Hop hop = GameManager.getInstance().prevSolutionStep();
 
