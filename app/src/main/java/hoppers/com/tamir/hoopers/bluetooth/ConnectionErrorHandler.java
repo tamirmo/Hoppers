@@ -25,7 +25,6 @@ class ConnectionErrorHandler {
         // Add the buttons
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // TODO: Finish?
                 activity.finish();
             }
         });

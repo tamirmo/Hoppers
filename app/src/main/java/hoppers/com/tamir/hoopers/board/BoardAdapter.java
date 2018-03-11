@@ -15,6 +15,8 @@ import logic.Hop;
 import logic.LEAF_TYPE;
 import logic.LeafCoordinate;
 
+import static logic.LeafCoordinate.SWAMP_LEAVES;
+
 /**
  * Created by Tamir on 10/03/2018.
  * This class handles the leaves views according to the game state.
@@ -40,8 +42,7 @@ class BoardAdapter implements IOnLeafClicked {
         this.floatingGreenFrog = floatingGreenFrog;
         this.floatingRedFrog = floatingRedFrog;
 
-        // TODO: 13 as const, maybe in coords?
-        leaves = new BoardLeafView[13];
+        leaves = new BoardLeafView[SWAMP_LEAVES];
 
         // Gettign all leaves from the table
         LeafCoordinate cord;

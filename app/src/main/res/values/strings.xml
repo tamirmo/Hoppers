@@ -8,6 +8,7 @@
 
     <string name="app_name">Hoppers</string>
 
+    <string name="loading_game_text">Loading game</string>
     <string name="multi_player_txt">Multi Player</string>
     <string name="single_player_txt">Single Player</string>
 

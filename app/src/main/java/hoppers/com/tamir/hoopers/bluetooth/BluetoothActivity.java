@@ -22,6 +22,7 @@ import bluetooth.BluetoothConnectionHandler;
 import bluetooth.IBluetoothEvents;
 import hoppers.com.tamir.hoopers.HomeScreen;
 import hoppers.com.tamir.hoopers.R;
+import hoppers.com.tamir.hoopers.board.GameBoardActivity;
 import logic.DIFFICULTY;
 
 public class BluetoothActivity extends AppCompatActivity implements IBluetoothEvents, IOnChallengeResponse {
@@ -78,7 +79,6 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
         super.onBackPressed();
         // When the user goes out of this activity,
         // closing the connection
-        // TODO: Alert the manager that the user has exited the bluetooth activity, next game is not multi player
         try {
             BluetoothConnectionHandler.getInstance().closeConnection();
         } catch (IOException e) {
@@ -94,11 +94,11 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
         fragmentTransaction.commit();
     }
 
-    private void moveToIncomingReqFragment(String deviceName, DIFFICULTY difficulty){
+    private void moveToIncomingReqFragment(String deviceName, DIFFICULTY difficulty, int level){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        incomingFragment.setRequestDetails(deviceName, difficulty);
+        incomingFragment.setRequestDetails(deviceName, difficulty, level);
 
         fragmentTransaction.replace(R.id.fragment_holder_layout, incomingFragment);
         fragmentTransaction.commit();
@@ -195,7 +195,6 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
                 finish();
             }else{
                 doDiscovery();
-                // TODO: Loading ?
             }
         }
     }
@@ -221,6 +220,14 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
         }
     }
 
+    private void moveToBoardActivity(int levelId){
+        Intent gameBoardActivity = new Intent(this, GameBoardActivity.class);
+        gameBoardActivity.putExtra(GameBoardActivity.LEVEL_NUM_KEY, levelId);
+        gameBoardActivity.putExtra(GameBoardActivity.IS_BLUETOOTH_GAME_KEY, true);
+        startActivity(gameBoardActivity);
+        finish();
+    }
+
     @Override
     public void onGameRequestReceived(final DIFFICULTY difficulty, final String deviceName, final int level) {
         runOnUiThread(new Runnable() {
@@ -228,7 +235,7 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
             public void run() {
                 Log.d(HomeScreen.TAG, "activity onGameRequestReceived difficulty = " + difficulty + " level = " + level);
                 // Moving to the fragment that displays the request
-                moveToIncomingReqFragment(deviceName, difficulty);
+                moveToIncomingReqFragment(deviceName, difficulty, level);
             }
         });
     }
@@ -248,9 +255,12 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
     public void onOpponentFinished() {}
     @Override
     public void onConnectionChanged(boolean isConnected) {}
+
+    // Called from bluetooth socket when the other side accepted the request
     @Override
     public void onGameStarted() {
-        onAccepted();
+        // The other side answered positively, moving to the board with the random level
+        moveToBoardActivity(chooseOpponentFragment.getLevelToPlay());
     }
     @Override
     public void onDevicesListUpdated() {
@@ -269,10 +279,11 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
         });
     }
 
+    // Called from IncomingRequestFragment when the user accepts the request
     @Override
     public void onAccepted() {
-        // TODO: Move to activity game
-        finish();
+        // Moving to the game with the level got from the other side
+        moveToBoardActivity(incomingFragment.getLevel());
     }
 
     @Override

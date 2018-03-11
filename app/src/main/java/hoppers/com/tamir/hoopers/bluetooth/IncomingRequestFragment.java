@@ -38,6 +38,13 @@ public class IncomingRequestFragment extends Fragment implements View.OnClickLis
     // A timer to wait for the user to respond
     private Timer connectTimer;
 
+    // The level the opponent sent (not showing it to the user)
+    private int level;
+
+    int getLevel(){
+        return level;
+    }
+
     void setChallengeResponseListener(IOnChallengeResponse challengeResponseListener){
         this.challengeResponseListener = challengeResponseListener;
     }
@@ -46,9 +53,10 @@ public class IncomingRequestFragment extends Fragment implements View.OnClickLis
      * Setting the difficulty of the request
      * @param difficulty the difficulty
      */
-    void setRequestDetails(String deviceName, DIFFICULTY difficulty){
+    void setRequestDetails(String deviceName, DIFFICULTY difficulty, int level){
         this.deviceName = deviceName;
         this.difficulty = difficulty;
+        this.level = level;
     }
 
     @Override
@@ -108,8 +116,8 @@ public class IncomingRequestFragment extends Fragment implements View.OnClickLis
         if(view.getId() == R.id.accept_image){
             // Sending accept to the other side indicating starting a game
             // and checking if the send went well
+            // TODO: Move to a thread? :(
             if(BluetoothConnectionHandler.getInstance().sendAccept()) {
-                // TODO: Move to game activity, start the game
                 Toast.makeText(getContext(),"Accepted", Toast.LENGTH_SHORT).show();
                 if(challengeResponseListener != null){
                     challengeResponseListener.onAccepted();
@@ -121,6 +129,7 @@ public class IncomingRequestFragment extends Fragment implements View.OnClickLis
         else if(view.getId() == R.id.reject_image){
             try {
                 // Sending exit and checking if send was successful
+                // TODO: Move to a thread? :(
                 if(!BluetoothConnectionHandler.getInstance().sendExit()){
                     ConnectionErrorHandler.displayErrorDialog(getActivity());
                 }else{

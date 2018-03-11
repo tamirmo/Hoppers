@@ -12,14 +12,19 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
+import bluetooth.BluetoothConnectionHandler;
+import bluetooth.IBluetoothEvents;
 import hoppers.com.tamir.hoopers.R;
+import logic.DIFFICULTY;
 import logic.GameManager;
 import logic.Hop;
 import logic.IOnGameDurationChanged;
 import logic.LeafCoordinate;
 import logic.Turn;
 
-public class GameBoardActivity extends AppCompatActivity implements View.OnClickListener, IOnGameDurationChanged, IOnLeafClicked {
+public class GameBoardActivity extends AppCompatActivity implements View.OnClickListener, IOnGameDurationChanged, IOnLeafClicked, IBluetoothEvents {
 
     public static final String LEVEL_NUM_KEY = "LEVEL_NUM";
     public static final String IS_BLUETOOTH_GAME_KEY = "IS_BLUETOOTH_GAME_KEY";
@@ -80,6 +85,7 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
         if(isBluetoothGame) {
             // When in remote game, No solution viewing is allowed
             hideSolutionFrame();
+            BluetoothConnectionHandler.getInstance().addEventsListener(this);
         } else {
             // At first letting the user click "show solution"
             showViewSolutionLayout();
@@ -89,21 +95,27 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
-        // TODO: Resume game only if not running
         GameManager.getInstance().resumeGame();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        // TODO: close the bluetooth game
         GameManager.getInstance().pauseGame();
+        if(this.isBluetoothGame){
+            try {
+                BluetoothConnectionHandler.getInstance().closeConnection();
+                // TODO: Move from this activity alerting the user the game has ended
+                finish();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.view_solution_btn){
-            // TODO: Update db of the solution viewed
             GameManager.getInstance().startShowSolution();
             // No need to display time anymore
             timePlayedLayout.setVisibility(View.GONE);
@@ -172,9 +184,18 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
             Turn turnResult = GameManager.getInstance().hop(new LeafCoordinate(leafIndex));
 
             if(turnResult.getResult() == GameManager.TURN_RESULT.GAME_WON){
+                // TODO: Move to game over activity
                 Toast.makeText(this, "WON!!!!!", Toast.LENGTH_SHORT).show();
                 // Refreshing view
                 boardAdapter.updateHop(turnResult.getHop());
+                if(isBluetoothGame){
+                    try {
+                        // TODO: Move to thread
+                        BluetoothConnectionHandler.getInstance().sendFinished();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
             else if(turnResult.getResult() == GameManager.TURN_RESULT.INVALID_HOP){
                 Toast.makeText(this, "Invalid hop", Toast.LENGTH_SHORT).show();
@@ -188,5 +209,53 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
             GameManager.getInstance().setSelectedLeaf(leafIndex);
             boardAdapter.updateBoard();
         }
+    }
+
+    // Bluetooth events:
+
+    @Override
+    public void onDevicesListUpdated() {}
+    @Override
+    public void onNoOpponentResponse() {}
+    @Override
+    public void onGameStarted() {}
+    @Override
+    public void onGameRequestReceived(DIFFICULTY difficulty, String deviceName, int level) {}
+
+    @Override
+    public void onOpponentExited() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO: Finish activity? Dialog?
+                Toast.makeText(GameBoardActivity.this, "Opponent Existed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onOpponentFinished() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO: Move to game over activity
+                Toast.makeText(GameBoardActivity.this, "Opponent Won", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onConnectionChanged(final boolean isConnected) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(!isConnected)
+                {
+                    // TODO: Finish activity?
+                    // TODO: Finish activity? Dialog?
+                    Toast.makeText(GameBoardActivity.this, "Connection error!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

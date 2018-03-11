@@ -3,8 +3,6 @@ package logic;
 import android.util.SparseArray;
 
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Tamir on 24/02/2018.

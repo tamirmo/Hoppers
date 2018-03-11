@@ -48,59 +48,47 @@ public class Level {
         this.id = id;
     }
 
-    public int getRedFrogLocation() {
+    int getRedFrogLocation() {
         return redFrogLocation;
     }
 
-    public void setRedFrogLocation(int redFrogLocation) {
-        this.redFrogLocation = redFrogLocation;
-    }
-
-    public int[] getGreenFrogsLocations() {
+    int[] getGreenFrogsLocations() {
         return greenFrogsLocations;
     }
 
-    public void setGreenFrogsLocations(int[] greenFrogsLocations) {
-        this.greenFrogsLocations = greenFrogsLocations;
-    }
-
-    public List<Hop> getSolution() {
+    List<Hop> getSolution() {
         return solution;
-    }
-
-    public void setSolution(List<Hop> solution) {
-        this.solution = solution;
     }
 
     public boolean isSolutionViewed() {
         return isSolutionViewed;
     }
 
-    public void setSolutionViewed(boolean solutionViewed) {
+    void setSolutionViewed(boolean solutionViewed) {
         isSolutionViewed = solutionViewed;
     }
 
-    public int getRecordSeconds() {
+    int getRecordSeconds() {
         return recordSeconds;
     }
 
-    public void setRecordSeconds(int recordSeconds) {
+    void setRecordSeconds(int recordSeconds) {
         this.recordSeconds = recordSeconds;
     }
 
-    public int getRecordMinutes() {
+    int getRecordMinutes() {
         return recordMinutes;
     }
 
-    public void setRecordMinutes(int recordMinutes) {
+    void setRecordMinutes(int recordMinutes) {
         this.recordMinutes = recordMinutes;
     }
 
-    public int getRecordHours() {
+    int getRecordHours() {
         return recordHours;
     }
 
-    public void setRecordHours(int recordHours) {
+    void setRecordHours(int recordHours) {
         this.recordHours = recordHours;
     }
 
@@ -108,7 +96,7 @@ public class Level {
         return this.recordHours != 0 || this.recordMinutes != 0 || this.recordSeconds != 0;
     }
 
-    public Level(DIFFICULTY difficulty,
+    Level(DIFFICULTY difficulty,
             int id,
 
             // The locating of all frog at the initial state of this level
@@ -141,7 +129,7 @@ public class Level {
      * (filling the indexes of the green frogs, the solution...)
      * @param levelRecord The record from the DB
      */
-    public Level(LevelRecord levelRecord){
+    Level(LevelRecord levelRecord){
         this.difficulty = DIFFICULTY.getTypeByCode(levelRecord.getDifficulty());
         this.id = levelRecord.getId();
         this.redFrogLocation = levelRecord.getRedFrogLocation();
@@ -180,7 +168,7 @@ public class Level {
      * Converting this instance to LevelRecord object that can be stored in DB
      * @return LevelRecord instance representing this level
      */
-    public LevelRecord toLevelRecord(){
+    LevelRecord toLevelRecord(){
         String greenFrogs = getGreenFrogsString();
         String solution = getSolutionString();
         int isSolutionViewed = this.isSolutionViewed ? 1: 0;
@@ -196,7 +184,7 @@ public class Level {
                 isSolutionViewed);
     }
 
-    public String getGreenFrogsString(){
+    private String getGreenFrogsString(){
         StringBuilder greenFrogsLocations = new StringBuilder();
 
         if(this.greenFrogsLocations != null &&
@@ -210,7 +198,7 @@ public class Level {
         return greenFrogsLocations.toString();
     }
 
-    public String getSolutionString(){
+    private String getSolutionString(){
         StringBuilder greenFrogsLocations = new StringBuilder();
 
         if(this.solution != null &&

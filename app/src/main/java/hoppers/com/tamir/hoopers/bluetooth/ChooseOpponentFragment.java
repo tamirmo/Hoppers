@@ -34,6 +34,12 @@ public class ChooseOpponentFragment extends ListFragment implements IOnHopperCli
     private LinearLayout connectingLayout;
     private FrameLayout mainLayout;
     private LinearLayout chooseHopperLayout;
+    // The random level to play
+    private int levelToPlay;
+
+    public int getLevelToPlay() {
+        return levelToPlay;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,21 +121,18 @@ public class ChooseOpponentFragment extends ListFragment implements IOnHopperCli
             public void run() {
                 showConnectingLayout();
 
-                // TODO: Move this to homeScreen
-                GameManager.getInstance().initializeManager(getActivity());
-
                 try {
                     // Getting the difficulty chosen and getting a random level in this difficulty:
                     DIFFICULTY chosenDifficulty = DIFFICULTY.getTypeByCode(difficultiesSpinner.getSelectedItemPosition());
-                    int randomLevel = GameManager.getInstance().getRandomLevel(chosenDifficulty);
+                    levelToPlay = GameManager.getInstance().getRandomLevel(chosenDifficulty);
 
-                    Log.d(HomeScreen.TAG, "ItemClicked dif = " + chosenDifficulty + " level = " + randomLevel);
+                    Log.d(HomeScreen.TAG, "ItemClicked dif = " + chosenDifficulty + " level = " + levelToPlay);
 
                     BluetoothConnectionHandler.getInstance().requestGame(deviceClicked,
                             chosenDifficulty ,
-                            randomLevel);
+                            levelToPlay);
                 } catch (IOException e) {
-                    // TODO: Think what to do in here
+                    ConnectionErrorHandler.displayErrorDialog(getActivity());
                     e.printStackTrace();
                 }
             }

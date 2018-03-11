@@ -62,7 +62,6 @@ public class ConnectThread extends Thread {
                 Log.e(TAG, "Error!!!!!!!!!!!!!!!!", connectException);
                 socket.close();
             } catch (IOException closeException) {
-                // TODO: Raise an event to finish the connection
                 Log.e(TAG, "Could not close the client socket", closeException);
             }
         }

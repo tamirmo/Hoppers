@@ -66,30 +66,57 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/home_screen_loading_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="70dp"
         android:layout_marginRight="50dp">
+        <LinearLayout
+            android:id="@+id/home_screen_buttons_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/singlePlayerImage"
+            <ImageButton
+                android:id="@+id/singlePlayerImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/single_player"
+                android:background="@null"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/single_player_txt"
+                android:textSize="18sp"
+                android:textColor="@color/text_color"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/loading_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/single_player"
-            android:background="@null"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/single_player_txt"
-            android:textSize="18sp"
-            android:textColor="@color/text_color"/>
-    </LinearLayout>
-
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ProgressBar
+                android:id="@+id/indeterminateBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="7dp"
+                android:background="@drawable/progress_background"/>
+            <TextView
+                android:id="@+id/loading_game_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/loading_game_text"
+                android:textSize="20sp"
+                android:textColor="@color/text_color"/>
+        </LinearLayout>
+    </FrameLayout>
     <ImageView
         android:id="@+id/home_screen_green_frog"
         android:layout_width="wrap_content"

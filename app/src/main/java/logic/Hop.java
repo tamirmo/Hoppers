@@ -1,16 +1,5 @@
 package logic;
 
-import android.widget.HorizontalScrollView;
-
-import static logic.Hop.HOP_TYPE.DOWN;
-import static logic.Hop.HOP_TYPE.LEFT;
-import static logic.Hop.HOP_TYPE.LEFT_DOWN;
-import static logic.Hop.HOP_TYPE.LEFT_UP;
-import static logic.Hop.HOP_TYPE.RIGHT;
-import static logic.Hop.HOP_TYPE.RIGHT_DOWN;
-import static logic.Hop.HOP_TYPE.RIGHT_UP;
-import static logic.Hop.HOP_TYPE.UP;
-
 /**
  * Created by Tamir on 24/02/2018.
  * Representing one turn - one frog hop from one leaf to another
@@ -34,7 +23,7 @@ public class Hop {
     private LeafCoordinate eatenFrogLeaf;
     private HOP_TYPE hopType;
 
-    public Hop(LeafCoordinate frogOriginalLeaf, LeafCoordinate frogHoppedLeaf, LeafCoordinate eatenFrogLeaf){
+    Hop(LeafCoordinate frogOriginalLeaf, LeafCoordinate frogHoppedLeaf, LeafCoordinate eatenFrogLeaf){
         this.frogOriginalLeaf = frogOriginalLeaf;
         this.frogHoppedLeaf = frogHoppedLeaf;
         this.eatenFrogLeaf = eatenFrogLeaf;
@@ -42,7 +31,7 @@ public class Hop {
         evaluateHopType();
     }
 
-    public Hop(String hopAsString){
+    Hop(String hopAsString){
         String[] coordinates = hopAsString.split(HOP_SEPARATOR);
 
         frogOriginalLeaf = new LeafCoordinate(coordinates[0]);
@@ -56,37 +45,37 @@ public class Hop {
         // If the rows are the same it is left or right hop:
         if(frogOriginalLeaf.getRow() ==  frogHoppedLeaf.getRow()){
             if(frogOriginalLeaf.getColumn() <  frogHoppedLeaf.getColumn()){
-                hopType = RIGHT;
+                hopType = HOP_TYPE.RIGHT;
             }
             else {
-                hopType = LEFT;
+                hopType = HOP_TYPE.LEFT;
             }
         }
         // If the cols are the same it is up or down hop:
         else if(frogOriginalLeaf.getColumn() ==  frogHoppedLeaf.getColumn()){
 
             if(frogOriginalLeaf.getRow() <  frogHoppedLeaf.getRow()){
-                hopType = DOWN;
+                hopType = HOP_TYPE.DOWN;
             }
             else {
-                hopType = UP;
+                hopType = HOP_TYPE.UP;
             }
         }
         // If not the same then we have a diagonal hop:
         else{
             if(frogOriginalLeaf.getRow() <  frogHoppedLeaf.getRow() &&
                     frogOriginalLeaf.getColumn() <  frogHoppedLeaf.getColumn()){
-                hopType = RIGHT_DOWN;
+                hopType = HOP_TYPE.RIGHT_DOWN;
             }
             else if(frogOriginalLeaf.getRow() <  frogHoppedLeaf.getRow() &&
                     frogOriginalLeaf.getColumn() >  frogHoppedLeaf.getColumn()){
-                hopType = LEFT_DOWN;
+                hopType = HOP_TYPE.LEFT_DOWN;
             }
             else if(frogOriginalLeaf.getColumn() <  frogHoppedLeaf.getColumn()){
-                hopType = RIGHT_UP;
+                hopType = HOP_TYPE.RIGHT_UP;
             }
             else{
-                hopType = LEFT_UP;
+                hopType = HOP_TYPE.LEFT_UP;
             }
         }
     }
@@ -95,24 +84,12 @@ public class Hop {
         return frogOriginalLeaf;
     }
 
-    public void setFrogOriginalLeaf(LeafCoordinate frogOriginalLeaf) {
-        this.frogOriginalLeaf = frogOriginalLeaf;
-    }
-
     public LeafCoordinate getFrogHoppedLeaf() {
         return frogHoppedLeaf;
     }
 
-    public void setFrogHoppedLeaf(LeafCoordinate frogHoppedLeaf) {
-        this.frogHoppedLeaf = frogHoppedLeaf;
-    }
-
     public LeafCoordinate getEatenFrogLeaf() {
         return eatenFrogLeaf;
-    }
-
-    public void setEatenFrogLeaf(LeafCoordinate eatenFrogLeaf) {
-        this.eatenFrogLeaf = eatenFrogLeaf;
     }
 
     public HOP_TYPE getHopType() {

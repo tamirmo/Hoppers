@@ -16,6 +16,8 @@ import storage.LevelsDbHelper;
 
 /**
  * Created by Tamir on 24/02/2018.
+ * Handling swamp, accessing DB for loading and saving levels data,
+ * supplying swamp details...
  */
 
 public class GameManager {
@@ -524,15 +526,6 @@ public class GameManager {
         }
     }
 
-    /**
-     * Make the given hop on the swamp
-     * (called in show solution process)
-     * @param hop Hop, The hop to perform
-     */
-    public void hop(Hop hop){
-        swamp.makeHop(hop);
-    }
-
     private void startTimer(){
         // Starting only if not already running
         if(playTimeTimer == null) {
@@ -569,7 +562,7 @@ public class GameManager {
         }
     }
 
-    public String getGameDuration(){
+    private String getGameDuration(){
         return String.format("%02d:%02d:%02d", this.hours, this.minutes, seconds );
     }
 
@@ -649,7 +642,7 @@ public class GameManager {
         int originalFrogCol = originalLeaf.getColumn();
         int destFrogIndex = LeafCoordinate.getCellIndex(destinationLeafCord.getRow(), destinationLeafCord.getColumn());
 
-        LeafCoordinate eatenFrog = null;
+        LeafCoordinate eatenFrog;
 
         // Tf the frog is a row with 3 columns
         if(originalFrogRow % 2 == 0){

@@ -18,7 +18,7 @@ public class Leaf {
         return type;
     }
 
-    public void setType(LEAF_TYPE type) {
+    void setType(LEAF_TYPE type) {
         this.type = type;
     }
 
@@ -26,7 +26,7 @@ public class Leaf {
         return isSelected;
     }
 
-    public void setSelected(boolean selected) {
+    void setSelected(boolean selected) {
         isSelected = selected;
     }
 
@@ -34,7 +34,7 @@ public class Leaf {
         return isValidHop;
     }
 
-    public void setValidHop(boolean validHop) {
+    void setValidHop(boolean validHop) {
         isValidHop = validHop;
     }
 }

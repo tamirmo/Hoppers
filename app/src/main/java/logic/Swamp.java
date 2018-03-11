@@ -6,23 +6,15 @@ package logic;
  * The game board consists of leafs and frogs.
  */
 
-public class Swamp {
+class Swamp {
     private Leaf[][] leaves;
     private LeafCoordinate selectedFrogCord;
 
-    public Leaf[][] getLeaves() {
-        return leaves;
-    }
-
-    public void setLeaves(Leaf[][] leaves) {
-        this.leaves = leaves;
-    }
-
-    public LeafCoordinate getSelectedFrogCord() {
+    LeafCoordinate getSelectedFrogCord() {
         return selectedFrogCord;
     }
 
-    public Swamp(){
+    Swamp(){
         leaves = new Leaf[5][];
 
         // Initializing the leaves table:
@@ -56,20 +48,7 @@ public class Swamp {
         getLeaf(new LeafCoordinate(level.getRedFrogLocation())).setType(LEAF_TYPE.RED_FROG);
     }
 
-    public Leaf getLeaf(int row, int column){
-        Leaf leaf = null;
-
-        // Checking if the indexes represent valid leaves
-        if(leaves.length < row &&
-                leaves[row].length < column){
-            // Getting the leaf in the desired space
-            leaf = leaves[row][column];
-        }
-
-        return leaf;
-    }
-
-    public Leaf getLeaf(LeafCoordinate coordinate){
+    Leaf getLeaf(LeafCoordinate coordinate){
         Leaf leaf = null;
 
         // Checking if the indexes represent valid leaves
@@ -84,7 +63,7 @@ public class Swamp {
         return leaf;
     }
 
-    public void makeHop(Hop hop){
+    void makeHop(Hop hop){
         getLeaf(hop.getEatenFrogLeaf()).setType(LEAF_TYPE.EMPTY);
         // Getting the hopped frog and clearing it's original leaf
         LEAF_TYPE frog = getLeaf(hop.getFrogOriginalLeaf()).getType();
@@ -117,7 +96,7 @@ public class Swamp {
      * Called when stepping backwards from a solution.
      * @param hop The hop to revert
      */
-    public void revertHop(Hop hop){
+    void revertHop(Hop hop){
         // Getting the green frog back
         getLeaf(hop.getEatenFrogLeaf()).setType(LEAF_TYPE.GREEN_FROG);
         // Getting the hopped frog and clearing it's current leaf
@@ -130,12 +109,10 @@ public class Swamp {
         clearSelectedLeaf();
     }
 
-    public void selectLeaf(LeafCoordinate coordinate){
+    void selectLeaf(LeafCoordinate coordinate){
         Leaf leaf = getLeaf(coordinate);
         if(leaf != null){
-            if(leaf.getType() == LEAF_TYPE.EMPTY){
-                // TODO: Wrong choice
-            }else{
+            if(leaf.getType() != LEAF_TYPE.EMPTY){
                 // Clearing last selected:
 
                 for(int i = 0 ; i < leaves.length; i ++){
@@ -150,9 +127,6 @@ public class Swamp {
                 leaf.setSelected(true);
                 selectedFrogCord = coordinate;
             }
-        }
-        else{
-            // TODO: Wrong choice
         }
     }
 
@@ -270,7 +244,7 @@ public class Swamp {
      * Indicating if the swamp contains only one red frog and no green ones
      * @return True if only red frog, False otherwise
      */
-    public boolean isOnlyRedFrog(){
+    boolean isOnlyRedFrog(){
         boolean isOnlyRedFrog = true;
 
         for(int i = 0 ; i < leaves.length; i ++){

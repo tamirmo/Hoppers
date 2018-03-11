@@ -5,18 +5,12 @@ package logic;
  */
 
 public class LeafCoordinate{
+    // The number of leaves in the swamp
+    public final static int SWAMP_LEAVES = 13;
     private final static String COORDINATE_SEPARATOR = "#";
 
     private int row;
     private int column;
-
-    void setRow(int row){
-        this.row = row;
-    }
-
-    void setColumn(int column){
-        this.column = column;
-    }
 
     public int getRow() {
         return row;
@@ -25,8 +19,6 @@ public class LeafCoordinate{
     public int getColumn() {
         return column;
     }
-
-    LeafCoordinate(){}
 
     LeafCoordinate(int row, int column){
         this.row = row;
@@ -85,7 +77,7 @@ public class LeafCoordinate{
      * @param column The column of the cell
      * @return the one dimension index of the given cell
      */
-    public static int getCellIndex(int row, int column){
+    static int getCellIndex(int row, int column){
         int index = 0;
 
         // Adding all the cells in the previous rows
