@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -58,12 +57,11 @@ public class LevelsAdapter extends RecyclerView.Adapter<LevelsAdapter.LevelViewH
         if(level.isSolved()){
             levelViewHolder.frog.setImageResource(R.drawable.green_frog_levels_winner);
             levelViewHolder.record.setVisibility(View.VISIBLE);
-            levelViewHolder.record.setText(context.getString(R.string.record) +
-                    level.getRecordHours() + ":" + level.getRecordMinutes() + ":" + level.getRecordSeconds());
+            levelViewHolder.record.setText(context.getString(R.string.record) + " " +
+                    level.getRecordString());
         }else{
             levelViewHolder.frog.setImageResource(R.drawable.green_frog_levels);
             levelViewHolder.record.setVisibility(View.INVISIBLE);
-
         }
 
         // Setting the background of the main layout according to the level:

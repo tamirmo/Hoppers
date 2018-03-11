@@ -458,6 +458,7 @@ public class GameManager {
         currLevel = levels.get(levelId - 1);
         seconds = minutes = hours = 0;
         this.isRemoteOpponent = isRemoteOpponent;
+        hops.clear();
 
         swamp.setLevel(currLevel);
 
@@ -470,6 +471,17 @@ public class GameManager {
     public void startShowSolution(){
         swamp.setLevel(currLevel);
         solutionIterator = currLevel.getSolution().listIterator();
+
+        // Updating the database of the solution viewed
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                levelsDbHelper.updateSolutionViewedById(currLevel.getId(), true);
+            }
+        }).start();
+
+        // Updating the local level
+        currLevel.setSolutionViewed(true);
     }
 
     public Hop nextSolutionStep(){
@@ -535,6 +547,13 @@ public class GameManager {
         }
     }
 
+    private void stopTimer(){
+        if(playTimeTimer != null){
+            playTimeTimer.cancel();
+            playTimeTimer = null;
+        }
+    }
+
     private void increaseTime(){
         if(++seconds > 60){
             seconds = 0;
@@ -555,10 +574,7 @@ public class GameManager {
     }
 
     public void pauseGame(){
-        if(playTimeTimer != null){
-            playTimeTimer.cancel();
-            playTimeTimer = null;
-        }
+        stopTimer();
     }
 
     public void resumeGame(){
@@ -599,6 +615,10 @@ public class GameManager {
 
         if(swamp.isOnlyRedFrog()){
             turnResult.setResult(TURN_RESULT.GAME_WON);
+
+            // Game is over, stopping timer
+            stopTimer();
+
             if(isGameDurationRecord()){
                 // Saving the record (is a separated thread [not UI thread] )
                 new Thread(new Runnable() {
@@ -607,6 +627,11 @@ public class GameManager {
                         levelsDbHelper.updateHighScoreById(currLevel.getId(), hours, minutes, seconds);
                     }
                 }).start();
+
+                // Updating the local level:
+                currLevel.setRecordHours(hours);
+                currLevel.setRecordMinutes(minutes);
+                currLevel.setRecordSeconds(seconds);
             }
         }
 
@@ -738,12 +763,12 @@ public class GameManager {
     private boolean isGameDurationRecord(){
         boolean isRecord = false;
 
-        if(hours < currLevel.getRecordHours() ||
+        if(hours > currLevel.getRecordHours() ||
                 // If the hours are the same, checking minutes
                 (hours == currLevel.getRecordHours() &&
-                        (minutes < currLevel.getRecordMinutes() ||
+                        (minutes > currLevel.getRecordMinutes() ||
                                 // If minutes are the same, checking the seconds
-                                (minutes == currLevel.getRecordMinutes() && seconds < currLevel.getRecordSeconds())) )){
+                                (minutes == currLevel.getRecordMinutes() && seconds > currLevel.getRecordSeconds())) )){
             isRecord = true;
         }
 

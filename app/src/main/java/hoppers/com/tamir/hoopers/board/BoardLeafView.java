@@ -1,14 +1,13 @@
 package hoppers.com.tamir.hoopers.board;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Matrix;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import java.util.Random;
 
 import hoppers.com.tamir.hoopers.R;
 import logic.GameManager;
@@ -20,12 +19,22 @@ import logic.Leaf;
  */
 
 public class BoardLeafView extends RelativeLayout implements View.OnClickListener {
+    private static final int FADE_OUT_ANIM_DURATION = 200;
+
     private ImageView frog;
     private ImageView leafImage;
     private int index;
-    // The angle to rotate the leaf
-    private float leafRotation;
     private IOnLeafClicked leafClickedListener;
+    // Indicating if the frog was just eaten
+    private boolean isFrogEaten;
+
+    /**
+     * Called in a case when the frog in this leaf has been eaten
+     * (to display an animation)
+     */
+    void setFrogEaten(){
+        isFrogEaten = true;
+    }
 
     void setLeafClickedListener(IOnLeafClicked leafClickedListener){
         this.leafClickedListener = leafClickedListener;
@@ -42,9 +51,6 @@ public class BoardLeafView extends RelativeLayout implements View.OnClickListene
     }
 
     private void init(Context context, AttributeSet attrs) {
-        // Random an angle to rotate the leaf
-        leafRotation = (float) randInt(180);
-
         inflate(getContext(), R.layout.board_leaf_layout, this);
         this.frog = (ImageView) findViewById(R.id.board_leaf_frog);
         this.leafImage = (ImageView) findViewById(R.id.board_leaf);
@@ -52,12 +58,12 @@ public class BoardLeafView extends RelativeLayout implements View.OnClickListene
         // Registering to the leaf click event
         findViewById(R.id.board_leaf_maim_layout).setOnClickListener(this);
 
-        // Pulling the index of the leaf
+        // Pulling the index of the leaf:
+
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.BoardLeafView,
                 0, 0);
-
         try {
             index = a.getInteger(R.styleable.BoardLeafView_index, 0);
         } finally {
@@ -70,15 +76,23 @@ public class BoardLeafView extends RelativeLayout implements View.OnClickListene
 
         switch (leaf.getType()){
             case EMPTY:
-                frog.setVisibility(GONE);
+                updateEmptyLeaf();
                 break;
             case GREEN_FROG:
                 frog.setVisibility(VISIBLE);
-                frog.setImageResource(R.drawable.green_frog_board);
+                if(leaf.isSelected()){
+                    frog.setImageResource(R.drawable.green_frog_board_selected);
+                }else {
+                    frog.setImageResource(R.drawable.green_frog_board);
+                }
                 break;
             case RED_FROG:
                 frog.setVisibility(VISIBLE);
-                frog.setImageResource(R.drawable.red_frog_board);
+                if(leaf.isSelected()){
+                    frog.setImageResource(R.drawable.red_frog_board_selected);
+                }else {
+                    frog.setImageResource(R.drawable.red_frog_board);
+                }
                 break;
         }
 
@@ -89,18 +103,35 @@ public class BoardLeafView extends RelativeLayout implements View.OnClickListene
         }
     }
 
-    /**
-     * Returns a random number between 0 and max, inclusive.
-     *
-     * @param max Maximum value.
-     * @return Integer between 0 and max, inclusive.
-     */
-    private int randInt(int max) {
-        Random rand = new Random();
+    private void updateEmptyLeaf() {
+        if(frog.getVisibility() != GONE){
+            // Checking if we need to animate an eating frog
+            if(isFrogEaten) {
+                // Animate the frog to 0% opacity. After the animation ends,
+                // set its visibility to GONE and back the alpha for next time.
+                frog.animate()
+                        .alpha(0f)
+                        .setDuration(FADE_OUT_ANIM_DURATION)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                frog.setVisibility(View.GONE);
+                                // Setting back the alpha for next time
+                                frog.setAlpha(1f);
+                            }
+                        });
+            } else{
+                // No animation needed
+                frog.setVisibility(View.GONE);
+            }
+        }
+    }
 
-        // nextInt is normally exclusive of the top value,
-        // so add 1 to make it inclusive
-        return rand.nextInt((max) + 1);
+    /**
+     * Hiding the frog before updating the leaf when stat
+     */
+    void hideFrog(){
+        frog.setVisibility(GONE);
     }
 
     @Override

@@ -140,6 +140,27 @@ public class LevelsDbHelper extends SQLiteOpenHelper {
         return recordsUpdated;
     }
 
+    public synchronized long updateSolutionViewedById(long levelId,
+                                                 boolean isViewed){
+        long recordsUpdated = OPERATION_UNSUCCESSFUL;
+
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+
+            cv.put(Level.COLUMN_NAME_IS_SOLUTION_VIEWED, isViewed);
+
+            recordsUpdated = db.update(Level.TABLE_NAME, cv, Level._ID + SQLConstants.EQUALS + levelId, null);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return recordsUpdated;
+        }
+
+        return recordsUpdated;
+    }
+
     private LevelRecord createLevelRecordFromCursor(Cursor cursor){
         LevelRecord record;
 

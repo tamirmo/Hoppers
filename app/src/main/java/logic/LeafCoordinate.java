@@ -74,6 +74,10 @@ public class LeafCoordinate{
         }
     }
 
+    public int getCellIndex(){
+        return getCellIndex(row, column);
+    }
+
     /**
      * This method calculates the one dimensional index of the cell
      * in the given row and column
@@ -81,7 +85,7 @@ public class LeafCoordinate{
      * @param column The column of the cell
      * @return the one dimension index of the given cell
      */
-    static int getCellIndex(int row, int column){
+    public static int getCellIndex(int row, int column){
         int index = 0;
 
         // Adding all the cells in the previous rows

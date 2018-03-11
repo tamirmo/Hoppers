@@ -14,16 +14,25 @@
         android:supportsRtl="false"
         android:testOnly="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeScreen">
+        <activity android:name=".HomeScreen"
+            android:configChanges="orientation"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".bluetooth.BluetoothActivity" />
-        <activity android:name=".levels.LevelsActivity" />
-        <activity android:name=".board.GameBoardActivity"></activity>
+        <activity android:name=".bluetooth.BluetoothActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity android:name=".levels.LevelsActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity android:name=".board.GameBoardActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

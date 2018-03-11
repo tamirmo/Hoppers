@@ -40,6 +40,7 @@ public class LevelsActivity extends FragmentActivity implements IOnDifficultyCho
                 .add(R.id.fragment_holder, chooseLevelFragment)
                 .addToBackStack(null)
                 .commit();
+        overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
     }
 
     @Override
@@ -47,5 +48,6 @@ public class LevelsActivity extends FragmentActivity implements IOnDifficultyCho
         Intent gameBoardActivity = new Intent(this, GameBoardActivity.class);
         gameBoardActivity.putExtra(GameBoardActivity.LEVEL_NUM_KEY, levelNum);
         startActivity(gameBoardActivity);
+        overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
     }
 }

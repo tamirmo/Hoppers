@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -22,6 +23,8 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
 
     public static final String LEVEL_NUM_KEY = "LEVEL_NUM";
     public static final String IS_BLUETOOTH_GAME_KEY = "IS_BLUETOOTH_GAME_KEY";
+
+
 
     private TextView levelText;
     private ImageButton viewSolutionBtn;
@@ -69,7 +72,9 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
         GameManager.getInstance().startGame(levelNum, isBluetoothGame);
 
         // Initializing the adapter and refreshing the view according to this level
-        boardAdapter = new BoardAdapter(gameGrid, this);
+        boardAdapter = new BoardAdapter(gameGrid, this,
+                (ImageView)findViewById(R.id.floating_green_frog),
+                (ImageView)findViewById(R.id.floating_red_frog));
         boardAdapter.updateBoard();
 
         if(isBluetoothGame) {
@@ -115,12 +120,16 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
             Hop hop = GameManager.getInstance().prevSolutionStep();
 
             // Refreshing view
-            boardAdapter.updateHop(hop);
+            boardAdapter.updateBoard();
         }
         else if(view.getId() == R.id.next_solution_step_btn){
             Hop hop = GameManager.getInstance().nextSolutionStep();
-            // Refreshing view
-            boardAdapter.updateHop(hop);
+
+            // If there was a step
+            if(hop != null) {
+                // Refreshing view
+                boardAdapter.updateHop(hop);
+            }
         }
         else if(view.getId() == R.id.undo_button){
             GameManager.getInstance().undoLastStep();

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import hoppers.com.tamir.hoopers.R;
 import logic.DIFFICULTY;
@@ -60,6 +59,14 @@ public class ChooseLevelFragment extends Fragment implements IOnLevelClicked {
         levelsRecyclerView.setAdapter(adapter);
 
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refreshing the levels for when returning from game
+        // and we have new records or levels viewed
+        adapter.notifyDataSetChanged();
     }
 
     @Override
