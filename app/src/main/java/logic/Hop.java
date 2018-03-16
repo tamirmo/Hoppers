@@ -16,7 +16,7 @@ public class Hop {
         LEFT_UP,
         LEFT_DOWN,
         RIGHT_UP,
-        RIGHT_DOWN};
+        RIGHT_DOWN}
 
     private LeafCoordinate frogOriginalLeaf;
     private LeafCoordinate frogHoppedLeaf;

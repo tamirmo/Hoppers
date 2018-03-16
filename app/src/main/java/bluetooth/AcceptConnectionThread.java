@@ -3,11 +3,8 @@ package bluetooth;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
-import android.util.Log;
 
 import java.io.IOException;
-
-import hoppers.com.tamir.hoopers.HomeScreen;
 
 /**
  * Created by Tamir on 25/02/2018.
@@ -45,7 +42,6 @@ public class AcceptConnectionThread extends Thread{
                     break;
                 }
             } catch (IOException e) {
-                Log.e(HomeScreen.TAG, "AcceptConnectionThread error");
                 e.printStackTrace();
                 break;
             }
@@ -53,7 +49,7 @@ public class AcceptConnectionThread extends Thread{
     }
 
     // Closes the connect socket and causes the thread to finish.
-    public void cancel() throws IOException {
+    void cancel() throws IOException {
         mmServerSocket.close();
     }
 }

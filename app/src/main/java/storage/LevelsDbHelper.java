@@ -9,24 +9,18 @@ import storage.LevelsDBContract.Level;
 
 /**
  * Created by Tamir on 25/02/2018.
+ * Handling the levels database (adding levels, updating solution viewed and record time...)
  */
 
 public class LevelsDbHelper extends SQLiteOpenHelper {
     // Indicating some operation did not succeed
-    public static final int OPERATION_UNSUCCESSFUL = -1;
+    private static final int OPERATION_UNSUCCESSFUL = -1;
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "Levels.db";
 
     public LevelsDbHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    public void dropDb(){
-        // Gets the data repository in write mode
-        SQLiteDatabase db = getWritableDatabase();
-
-        db.execSQL("DELETE FROM Level");
     }
 
     @Override
@@ -47,6 +41,7 @@ public class LevelsDbHelper extends SQLiteOpenHelper {
 
             // Create a new map of values, where column names are the keys
             ContentValues values = new ContentValues();
+            values.put(Level._ID, recordToInsert.getId());
             values.put(Level.COLUMN_NAME_DIFFICULTY, recordToInsert.getDifficulty());
             values.put(Level.COLUMN_NAME_GREEN_FROGS_LOCATIONS, recordToInsert.getGreenFrogs());
             values.put(Level.COLUMN_NAME_HIGH_SCORE_HOURS, recordToInsert.getHighScoreHours());
@@ -140,8 +135,7 @@ public class LevelsDbHelper extends SQLiteOpenHelper {
         return recordsUpdated;
     }
 
-    public synchronized long updateSolutionViewedById(long levelId,
-                                                 boolean isViewed){
+    public synchronized long updateSolutionViewedById(long levelId){
         long recordsUpdated = OPERATION_UNSUCCESSFUL;
 
         try {
@@ -149,7 +143,7 @@ public class LevelsDbHelper extends SQLiteOpenHelper {
 
             ContentValues cv = new ContentValues();
 
-            cv.put(Level.COLUMN_NAME_IS_SOLUTION_VIEWED, isViewed);
+            cv.put(Level.COLUMN_NAME_IS_SOLUTION_VIEWED, true);
 
             recordsUpdated = db.update(Level.TABLE_NAME, cv, Level._ID + SQLConstants.EQUALS + levelId, null);
         }

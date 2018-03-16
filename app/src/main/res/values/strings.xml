@@ -16,6 +16,7 @@
     <string name="not_bluetooth_discoverable">The device is not bluetooth discoverable!</string>
     <string name="accepting_connections_err">Error accepting bluetooth connections!</string>
     <string name="discoverable_err">Error setting device discoverable!</string>
+    <string name="sending_text">Sending</string>
 
     <string name="no_response">No response!</string>
     <string name="opponent_rejected">Opponent rejected!</string>
@@ -44,11 +45,22 @@
     <string name="time_played_text">Time Played: </string>
     <string name="view_solution_text">View solution</string>
     <string name="undo">Undo</string>
+    <string name="end_solution_msg">End of solution</string>
+    <string name="first_solution_step_msg">No previous steps</string>
+    <string name="no_more_undo_msg">No previous steps</string>
+    <string name="bluetooth_game_over_msg">Bluetooth game ended</string>
+    <string name="bluetooth_opponent_exited">Opponent exited</string>
+    <string name="invalid_hop_text">Invalid hop</string>
 
     <string name="beginner">Beginner</string>
     <string name="intermediate">Intermediate</string>
     <string name="advanced">Advanced</string>
     <string name="expert">Expert</string>
+
+    <string name="won_text">You Won !</string>
+    <string name="losing_text">You lost…</string>
+    <string name="try_level">Try level </string>
+    <string name="finished_time">Finished time:</string>
 
 
 </resources>

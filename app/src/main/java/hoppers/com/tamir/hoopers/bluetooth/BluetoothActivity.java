@@ -12,15 +12,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.Set;
 
 import bluetooth.BluetoothConnectionHandler;
 import bluetooth.IBluetoothEvents;
-import hoppers.com.tamir.hoopers.HomeScreen;
 import hoppers.com.tamir.hoopers.R;
 import hoppers.com.tamir.hoopers.board.GameBoardActivity;
 import logic.DIFFICULTY;
@@ -50,11 +47,8 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
         BluetoothConnectionHandler.getInstance().addEventsListener(this);
 
         if(isBluetoothAbilityDevice()){
-            // If no device paired found with the app running
-            if(!checkPairedDevices()){
-                enableDiscovery();
-                registerDiscoveredDeviceReceiver();
-            }
+            enableDiscovery();
+            registerDiscoveredDeviceReceiver();
         }
     }
 
@@ -107,7 +101,9 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
     private void registerDiscoveredDeviceReceiver(){
         // Register for broadcasts when a device is discovered.
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        IntentFilter actionUuid = new IntentFilter(BluetoothDevice.ACTION_UUID);
         registerReceiver(BluetoothConnectionHandler.getInstance(), filter);
+        registerReceiver(BluetoothConnectionHandler.getInstance(), actionUuid);
     }
 
     private void enableDiscovery(){
@@ -115,25 +111,6 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
                 new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
         discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, DISCOVERABLE_TIME_SEC);
         startActivityForResult(discoverableIntent, DISCOVERABLE_TIME_SEC);
-    }
-
-    /**
-     * Checking if we are already paired with a device running the application
-     * @return True if found a paired device running the application, False if not
-     */
-    private boolean checkPairedDevices(){
-        // TODO: Check if paired has my UUID
-        Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
-
-        if (pairedDevices.size() > 0) {
-            // There are paired devices. Get the name and address of each paired device.
-            for (BluetoothDevice device : pairedDevices) {
-                String deviceName = device.getName();
-                String deviceHardwareAddress = device.getAddress(); // MAC address
-                Log.d(HomeScreen.TAG, "Paired - " + deviceName);
-            }
-        }
-        return false;
     }
 
     /**
@@ -185,8 +162,6 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d(HomeScreen.TAG, "onActivityResult code = " + requestCode);
-
         // Checking if this is the discoverable request
         if (requestCode == DISCOVERABLE_TIME_SEC){
             if(resultCode ==  RESULT_CANCELED){
@@ -233,11 +208,17 @@ public class BluetoothActivity extends AppCompatActivity implements IBluetoothEv
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.d(HomeScreen.TAG, "activity onGameRequestReceived difficulty = " + difficulty + " level = " + level);
                 // Moving to the fragment that displays the request
                 moveToIncomingReqFragment(deviceName, difficulty, level);
             }
         });
+
+        try {
+            // Stopping accept until there is a user response
+            BluetoothConnectionHandler.getInstance().stopAcceptConnections();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

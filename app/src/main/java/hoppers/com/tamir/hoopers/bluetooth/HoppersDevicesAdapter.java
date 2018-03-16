@@ -2,21 +2,17 @@ package hoppers.com.tamir.hoopers.bluetooth;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import bluetooth.BluetoothConnectionHandler;
-import hoppers.com.tamir.hoopers.HomeScreen;
 import hoppers.com.tamir.hoopers.R;
 
 /**
@@ -25,7 +21,6 @@ import hoppers.com.tamir.hoopers.R;
  */
 
 public class HoppersDevicesAdapter extends ArrayAdapter<BluetoothDevice> implements View.OnClickListener {
-    private Context context;
     private LayoutInflater inflater;
     private IOnHopperClicked hopperClickedListener;
 
@@ -33,9 +28,8 @@ public class HoppersDevicesAdapter extends ArrayAdapter<BluetoothDevice> impleme
         this.hopperClickedListener = hopperClickedListener;
     }
 
-    public HoppersDevicesAdapter(@NonNull Activity context) {
+    HoppersDevicesAdapter(@NonNull Activity context) {
         super(context, R.layout.bluetooth_hopper_item);
-        this.context = context;
         inflater = context.getLayoutInflater();
     }
 

@@ -10,6 +10,7 @@
         android:src="@drawable/logo_small"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,52 +55,87 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/incoming_request_main_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_gravity="center">
+        android:layout_gravity="center_horizontal">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/loading_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
-            <ImageButton
-                android:id="@+id/accept_image"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ProgressBar
+                android:id="@+id/indeterminate_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
-                android:src="@drawable/green_frog_levels"
-                android:paddingLeft="5dp"/>
-
+                android:layout_gravity="center"
+                android:layout_margin="7dp"
+                android:background="@drawable/progress_background"/>
             <TextView
+                android:id="@+id/sending_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/accept_btn_text"
-                style="@style/incomingReqText"
-                android:layout_gravity="center"/>
+                android:text="@string/sending_text"
+                android:textSize="30sp"
+                android:textColor="@color/text_color"/>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/request_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="10dp">
-            <ImageButton
-                android:id="@+id/reject_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:src="@drawable/red_frog"
-                android:paddingLeft="5dp"/>
+            android:layout_height="wrap_content">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/reject_btn_text"
-                style="@style/incomingReqText"
-                android:layout_gravity="center" />
+                android:layout_margin="20dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginRight="40dp">
+                    <ImageButton
+                        android:id="@+id/accept_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:src="@drawable/green_frog_accept"
+                        android:paddingLeft="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/accept_btn_text"
+                        style="@style/incomingReqText"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="40dp">
+                    <ImageButton
+                        android:id="@+id/reject_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:src="@drawable/red_frog_reject"
+                        android:paddingLeft="5dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reject_btn_text"
+                        style="@style/incomingReqText"
+                        android:layout_gravity="center" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
+
 
 </LinearLayout>

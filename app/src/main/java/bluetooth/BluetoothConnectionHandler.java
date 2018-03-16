@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +16,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import hoppers.com.tamir.hoopers.HomeScreen;
 import logic.DIFFICULTY;
 
 /**
@@ -27,9 +25,9 @@ import logic.DIFFICULTY;
 
 public class BluetoothConnectionHandler extends BroadcastReceiver implements IOnSocketConnected {
     // The time to wait until raising connection failed
-    private final int CONNECT_TIMEOUT_MS = 10000;
+    private final int CONNECT_TIMEOUT_MS = 15000;
     final static String APP_NAME = "Hoppers";
-    final static UUID APP_UUID = new UUID(0x2, 0x5);
+    final static UUID APP_UUID = UUID.fromString("00000000-0000-0002-0000-000000000005");
 
     private enum EVENT_TYPE{GAME_FINISHED, OPPONENT_EXITED, GAME_STARTED, LIST_UPDATED, NO_OPPONENT_RESPONSE}
 
@@ -90,6 +88,7 @@ public class BluetoothConnectionHandler extends BroadcastReceiver implements IOn
         // Accepting only if not accepting already
         if(acceptConnectionThread != null) {
             acceptConnectionThread.cancel();
+            acceptConnectionThread = null;
         }
     }
 
@@ -98,6 +97,9 @@ public class BluetoothConnectionHandler extends BroadcastReceiver implements IOn
         bluetoothAdapter.cancelDiscovery();
         // Initializing the list
         devicesDiscovered = new ArrayList<>();
+
+        // Raising an event that the list has changed
+        raiseEvent(EVENT_TYPE.LIST_UPDATED);
 
         return bluetoothAdapter.startDiscovery();
     }
@@ -134,7 +136,6 @@ public class BluetoothConnectionHandler extends BroadcastReceiver implements IOn
 
     @Override
     public void onSocketConnected(BluetoothSocket socketAccepted) {
-        Log.d(HomeScreen.TAG, "onSocketConnected");
 
         try {
             // Closing the old connection if exist
@@ -186,17 +187,14 @@ public class BluetoothConnectionHandler extends BroadcastReceiver implements IOn
      * This method closes the current connection. Called when the app is finished or game is finished.
      */
     public void closeConnection() throws IOException {
-        // TODO: Call this at all times the user exit the application
-        Log.d(HomeScreen.TAG, "Close connection!!!!!!!");
         if(readerThread != null) {
             readerThread.stopReading();
             readerThread = null;
         }
-        if(outStream != null && inStream != null && socket != null && socket.isConnected()) {
+        if(outStream != null && inStream != null && socket != null) {
+            socket.close();
             outStream.close();
             inStream.close();
-            socket.close();
-
             socket = null;
         }
     }
@@ -217,20 +215,18 @@ public class BluetoothConnectionHandler extends BroadcastReceiver implements IOn
         return write(new byte[]{ConnectionCodes.ACCEPT});
     }
 
-    public boolean sendGameRequest(DIFFICULTY difficulty){
-        return write(new byte[]{ConnectionCodes.DifficultyToByteCode(difficulty)});
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-            Log.d(HomeScreen.TAG, "HERE2!!!!!!!");
             // Discovery has found a device. Get the BluetoothDevice
             // object and its info from the Intent.
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-            this.devicesDiscovered.add(device);
 
+            // Avoiding adding the same device twice
+            if(!this.devicesDiscovered.contains(device)) {
+                this.devicesDiscovered.add(device);
+            }
             // Raising an event that the list has changed
             raiseEvent(EVENT_TYPE.LIST_UPDATED);
         }
@@ -272,8 +268,6 @@ public class BluetoothConnectionHandler extends BroadcastReceiver implements IOn
             deviceName = socket.getRemoteDevice().getName();
         }
 
-        Log.d(HomeScreen.TAG, "Got request dif = " + difficulty + " Level = " + level);
-
         for(IBluetoothEvents listener : eventsListeners){
             listener.onGameRequestReceived(difficulty, deviceName, level);
         }
@@ -297,12 +291,10 @@ public class BluetoothConnectionHandler extends BroadcastReceiver implements IOn
                 if (readBytes > 0) {
                     switch (bytes[0]) {
                         case ConnectionCodes.FINISHED:
-                            Log.d(HomeScreen.TAG, "Got Finished");
                             raiseEvent(EVENT_TYPE.GAME_FINISHED);
                             closeConnection();
                             break;
                         case ConnectionCodes.EXIT:
-                            Log.d(HomeScreen.TAG, "Got Exit");
                             raiseEvent(EVENT_TYPE.OPPONENT_EXITED);
                             // No more waiting for connection, we got a response
                             if(connectTimer != null)
@@ -312,7 +304,6 @@ public class BluetoothConnectionHandler extends BroadcastReceiver implements IOn
                             closeConnection();
                             break;
                         case ConnectionCodes.ACCEPT:
-                            Log.d(HomeScreen.TAG, "Got Accept");
                             // No more waiting for connection, we got a response
                             if(connectTimer != null)
                             {
@@ -345,8 +336,6 @@ public class BluetoothConnectionHandler extends BroadcastReceiver implements IOn
 
             isRunning = true;
 
-            Log.d(HomeScreen.TAG, "ReaderThread: start");
-
             try {
                 // Keep listening to the InputStream until an exception occurs.
                 while (isRunning) {
@@ -361,8 +350,6 @@ public class BluetoothConnectionHandler extends BroadcastReceiver implements IOn
                 raiseConnectionChanged(false);
                 isRunning = false;
             }
-
-            Log.d(HomeScreen.TAG, "ReaderThread: End");
         }
 
         void stopReading(){

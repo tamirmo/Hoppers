@@ -39,64 +39,67 @@
         android:src="@drawable/logo"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/multiPlayerLayout"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="70dp"
-        android:layout_marginLeft="50dp">
-
-        <ImageButton
-            android:id="@+id/multiPlayerImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/multiplayer"
-            android:background="@null"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/multi_player_txt"
-            android:textSize="18sp"
-            android:textColor="@color/text_color"/>
-
-    </LinearLayout>
-
     <FrameLayout
         android:id="@+id/home_screen_loading_frame"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_marginBottom="70dp"
-        android:layout_marginRight="50dp">
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="40dp">
         <LinearLayout
             android:id="@+id/home_screen_buttons_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/singlePlayerImage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/single_player"
-                android:background="@null"/>
+                android:id="@+id/multiPlayerLayout"
+                android:orientation="vertical"
+                android:layout_marginRight="30dp">
 
-            <TextView
+                <ImageButton
+                    android:id="@+id/multiPlayerImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/multiplayer"
+                    android:background="@null"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/multi_player_txt"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_color"
+                    android:layout_gravity="center_horizontal"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/single_player_txt"
-                android:textSize="18sp"
-                android:textColor="@color/text_color"/>
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/singlePlayerImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/single_player"
+                    android:background="@null"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/single_player_txt"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_color"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/loading_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -113,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/loading_game_text"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 android:textColor="@color/text_color"/>
         </LinearLayout>
     </FrameLayout>
@@ -124,7 +127,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="20dp"
-        android:layout_above="@id/multiPlayerLayout"/>
+        android:layout_above="@id/home_screen_loading_frame"/>
 
     <ImageView
         android:id="@+id/home_screen_red_frog"

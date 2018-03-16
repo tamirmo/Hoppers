@@ -64,8 +64,8 @@ public class Level {
         return isSolutionViewed;
     }
 
-    void setSolutionViewed(boolean solutionViewed) {
-        isSolutionViewed = solutionViewed;
+    void setSolutionViewed() {
+        isSolutionViewed = true;
     }
 
     int getRecordSeconds() {

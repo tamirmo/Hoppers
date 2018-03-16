@@ -21,7 +21,6 @@ import logic.GameManager;
 
 public class ChooseLevelFragment extends Fragment implements IOnLevelClicked {
 
-    private RecyclerView  levelsRecyclerView;
     private DIFFICULTY difficulty;
     private LevelsAdapter adapter;
     private IOnLevelClicked levelClickedListener;
@@ -45,7 +44,7 @@ public class ChooseLevelFragment extends Fragment implements IOnLevelClicked {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_choose_level, container, false);
 
-        levelsRecyclerView = root.findViewById(R.id.levels_recycler_view);
+        RecyclerView levelsRecyclerView = root.findViewById(R.id.levels_recycler_view);
 
         // Initializing the adapter with a list of the given difficulty's levels
         //and a click listener

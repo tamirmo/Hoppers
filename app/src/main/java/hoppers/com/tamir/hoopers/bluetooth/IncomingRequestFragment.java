@@ -1,14 +1,14 @@
 package hoppers.com.tamir.hoopers.bluetooth;
 
-import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Timer;
@@ -41,6 +41,10 @@ public class IncomingRequestFragment extends Fragment implements View.OnClickLis
     // The level the opponent sent (not showing it to the user)
     private int level;
 
+    private FrameLayout incomingRequestMainFrame;
+    private LinearLayout loadingLayout;
+    private LinearLayout requestLayout;
+
     int getLevel(){
         return level;
     }
@@ -67,14 +71,32 @@ public class IncomingRequestFragment extends Fragment implements View.OnClickLis
 
         // Setting the name and the level of the request
         TextView playerNameTextView = convertView.findViewById(R.id.player_name_text);
-        TextView levelTextView = convertView.findViewById(R.id.level_text);
+        TextView levelTextView = convertView.findViewById(R.id.level_name_text);
         playerNameTextView.setText(deviceName);
         levelTextView.setText(difficulty.toString());
+        incomingRequestMainFrame = convertView.findViewById(R.id.incoming_request_main_frame);
+        loadingLayout = convertView.findViewById(R.id.loading_layout);
+        requestLayout = convertView.findViewById(R.id.request_layout);
 
         convertView.findViewById(R.id.accept_image).setOnClickListener(this);
         convertView.findViewById(R.id.reject_image).setOnClickListener(this);
 
+        // At first showing the request
+        showRequest();
+
         return convertView;
+    }
+
+    private void showLoading(){
+        incomingRequestMainFrame.bringChildToFront(loadingLayout);
+        loadingLayout.setVisibility(View.VISIBLE);
+        requestLayout.setVisibility(View.GONE);
+    }
+
+    private void showRequest(){
+        incomingRequestMainFrame.bringChildToFront(requestLayout);
+        loadingLayout.setVisibility(View.GONE);
+        requestLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -114,11 +136,30 @@ public class IncomingRequestFragment extends Fragment implements View.OnClickLis
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.accept_image){
-            // Sending accept to the other side indicating starting a game
-            // and checking if the send went well
-            // TODO: Move to a thread? :(
-            if(BluetoothConnectionHandler.getInstance().sendAccept()) {
-                Toast.makeText(getContext(),"Accepted", Toast.LENGTH_SHORT).show();
+            new SendAcceptTask().execute();
+            showLoading();
+        }
+        else if(view.getId() == R.id.reject_image){
+            new SendRejectTask().execute();
+            showLoading();
+        }
+    }
+
+    /**
+     * Sending accept to the other side indicating starting a game
+     */
+    private class SendAcceptTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            // Preparing the game
+            return BluetoothConnectionHandler.getInstance().sendAccept();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSent) {
+            if(isSent) {
                 if(challengeResponseListener != null){
                     challengeResponseListener.onAccepted();
                 }
@@ -126,22 +167,39 @@ public class IncomingRequestFragment extends Fragment implements View.OnClickLis
                 ConnectionErrorHandler.displayErrorDialog(getActivity());
             }
         }
-        else if(view.getId() == R.id.reject_image){
+    }
+
+    /**
+     * A task sending reject to the other user
+     */
+    private class SendRejectTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
             try {
-                // Sending exit and checking if send was successful
-                // TODO: Move to a thread? :(
-                if(!BluetoothConnectionHandler.getInstance().sendExit()){
-                    ConnectionErrorHandler.displayErrorDialog(getActivity());
-                }else{
-                    if(challengeResponseListener != null){
-                        challengeResponseListener.onRejected();
-                    }
-                    // Starting to acceptConnections again
-                    BluetoothConnectionHandler.getInstance().acceptConnections();
-                }
+                return BluetoothConnectionHandler.getInstance().sendExit();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSent) {
+            if(!isSent){
                 ConnectionErrorHandler.displayErrorDialog(getActivity());
+            }else{
+                if(challengeResponseListener != null){
+                    challengeResponseListener.onRejected();
+                }
+                // Starting to acceptConnections again
+                try {
+                    BluetoothConnectionHandler.getInstance().acceptConnections();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    ConnectionErrorHandler.displayErrorDialog(getActivity());
+                }
             }
         }
     }

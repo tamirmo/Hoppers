@@ -20,9 +20,6 @@ import logic.GameManager;
 
 public class HomeScreen extends AppCompatActivity implements View.OnClickListener {
 
-    // TODO: Delete
-    public static String TAG = "Hoppers";
-
     private AnimationDrawable greenFrogAnimation;
     private AnimationDrawable redFrogAnimation;
     private FrameLayout loadingFrame;
@@ -86,7 +83,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private void showLoading(){
         loadingFrame.bringChildToFront(loadingLayout);
         buttonsLayout.setVisibility(View.GONE);
-        loadingLayout.setVisibility(View.GONE);
+        loadingLayout.setVisibility(View.VISIBLE);
     }
 
     private void showButtonsLayout(){

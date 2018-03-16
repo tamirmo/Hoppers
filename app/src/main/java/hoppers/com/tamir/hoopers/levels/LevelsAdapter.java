@@ -19,12 +19,12 @@ import logic.Level;
  * An adapter for the levels displayed after choosing difficulty.
  */
 
-public class LevelsAdapter extends RecyclerView.Adapter<LevelsAdapter.LevelViewHolder> implements View.OnClickListener {
+class LevelsAdapter extends RecyclerView.Adapter<LevelsAdapter.LevelViewHolder> implements View.OnClickListener {
     private List<Level> levels;
     private IOnLevelClicked levelClickedListener;
     private Context context;
 
-    public LevelsAdapter(Context context, List<Level> levels, IOnLevelClicked levelClickedListener){
+    LevelsAdapter(Context context, List<Level> levels, IOnLevelClicked levelClickedListener){
         this.levels = levels;
         this.levelClickedListener = levelClickedListener;
         this.context = context;
@@ -98,12 +98,12 @@ public class LevelsAdapter extends RecyclerView.Adapter<LevelsAdapter.LevelViewH
         }
     }
 
-    public class LevelViewHolder extends RecyclerView.ViewHolder {
-        public TextView number, record;
-        public ImageView solutionViewed, frog;
-        public RelativeLayout mainLayout;
+    class LevelViewHolder extends RecyclerView.ViewHolder {
+        TextView number, record;
+        ImageView solutionViewed, frog;
+        RelativeLayout mainLayout;
 
-        public LevelViewHolder(View view) {
+        LevelViewHolder(View view) {
             super(view);
             solutionViewed = view.findViewById(R.id.solution_viewed_image);
             number = view.findViewById(R.id.level_name);

@@ -3,16 +3,13 @@ package hoppers.com.tamir.hoopers.levels;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 
-import hoppers.com.tamir.hoopers.HomeScreen;
 import hoppers.com.tamir.hoopers.R;
 import hoppers.com.tamir.hoopers.board.GameBoardActivity;
 import logic.DIFFICULTY;
 
 public class LevelsActivity extends FragmentActivity implements IOnDifficultyChosen, IOnLevelClicked{
 
-    private ChooseDifficultyFragment chooseDifficultyFragment;
     private ChooseLevelFragment chooseLevelFragment;
 
     @Override
@@ -21,7 +18,7 @@ public class LevelsActivity extends FragmentActivity implements IOnDifficultyCho
         setContentView(R.layout.activity_levels);
 
         // Creating the two fragments:
-        chooseDifficultyFragment = new ChooseDifficultyFragment();
+        ChooseDifficultyFragment chooseDifficultyFragment = new ChooseDifficultyFragment();
         chooseLevelFragment = new ChooseLevelFragment();
 
         // Add the fragment to the 'fragment_container' and adding to back stack to be able to get back to

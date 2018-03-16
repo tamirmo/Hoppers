@@ -16,7 +16,7 @@ class ConnectionErrorHandler {
      * Displaying a dialog of an unexpected error
      */
     static void displayErrorDialog(final Activity activity){
-        // 1. Instantiate an AlertDialog.Builder with its constructor
+        // Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         builder.setMessage(R.string.unexpected_error)

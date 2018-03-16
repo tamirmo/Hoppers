@@ -28,24 +28,12 @@ public class LevelRecord {
         return highScoreHours;
     }
 
-    public void setHighScoreHours(int highScoreHours) {
-        this.highScoreHours = highScoreHours;
-    }
-
     public int getHighScoreMinutes() {
         return highScoreMinutes;
     }
 
-    public void setHighScoreMinutes(int highScoreMinutes) {
-        this.highScoreMinutes = highScoreMinutes;
-    }
-
     public int getHighScoreSeconds() {
         return highScoreSeconds;
-    }
-
-    public void setHighScoreSeconds(int highScoreSeconds) {
-        this.highScoreSeconds = highScoreSeconds;
     }
 
     public int getDifficulty() {
@@ -60,32 +48,16 @@ public class LevelRecord {
         return redFrogLocation;
     }
 
-    public void setRedFrogLocation(int redFrogLocation) {
-        this.redFrogLocation = redFrogLocation;
-    }
-
     public String getGreenFrogs() {
         return greenFrogs;
-    }
-
-    public void setGreenFrogs(String greenFrogs) {
-        this.greenFrogs = greenFrogs;
     }
 
     public String getSolution() {
         return solution;
     }
 
-    public void setSolution(String solution) {
-        this.solution = solution;
-    }
-
     public int getIsSolutionViewed() {
         return isSolutionViewed;
-    }
-
-    public void setIsSolutionViewed(int isSolutionViewed) {
-        this.isSolutionViewed = isSolutionViewed;
     }
 
     public LevelRecord(int id,

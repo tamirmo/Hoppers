@@ -3,7 +3,6 @@ package hoppers.com.tamir.hoopers.bluetooth;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.Toast;
 import java.io.IOException;
 
 import bluetooth.BluetoothConnectionHandler;
-import hoppers.com.tamir.hoopers.HomeScreen;
 import hoppers.com.tamir.hoopers.R;
 import logic.DIFFICULTY;
 import logic.GameManager;
@@ -89,8 +87,6 @@ public class ChooseOpponentFragment extends ListFragment implements IOnHopperCli
 
         // Alerting the user
         Toast.makeText(getContext(),R.string.no_response,Toast.LENGTH_LONG).show();
-
-        // TODO: Call start discovery
     }
 
     /**
@@ -102,16 +98,16 @@ public class ChooseOpponentFragment extends ListFragment implements IOnHopperCli
 
         // Alerting the user
         Toast.makeText(getContext(),R.string.opponent_rejected,Toast.LENGTH_LONG).show();
-
-        // TODO: Call start discovery
     }
 
     /**
      * Indicating the list of devices has updated
      */
     void hoppersListUpdated(){
-        // Updating the list
-        this.adapter.notifyDataSetChanged();
+        if(adapter != null) {
+            // Updating the list
+            this.adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -125,8 +121,6 @@ public class ChooseOpponentFragment extends ListFragment implements IOnHopperCli
                     // Getting the difficulty chosen and getting a random level in this difficulty:
                     DIFFICULTY chosenDifficulty = DIFFICULTY.getTypeByCode(difficultiesSpinner.getSelectedItemPosition());
                     levelToPlay = GameManager.getInstance().getRandomLevel(chosenDifficulty);
-
-                    Log.d(HomeScreen.TAG, "ItemClicked dif = " + chosenDifficulty + " level = " + levelToPlay);
 
                     BluetoothConnectionHandler.getInstance().requestGame(deviceClicked,
                             chosenDifficulty ,

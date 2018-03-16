@@ -9,8 +9,6 @@ import java.io.IOException;
 
 import logic.DIFFICULTY;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by Tamir on 25/02/2018.
  * A thread connecting to a given bluetooth device
@@ -19,7 +17,6 @@ import static android.content.ContentValues.TAG;
 
 public class ConnectThread extends Thread {
     private BluetoothSocket socket;
-    private BluetoothDevice device;
     private BluetoothAdapter bluetoothAdapter;
     private IOnSocketConnected socketConnectedListener;
     private byte difficultyToPlayCode;
@@ -27,13 +24,14 @@ public class ConnectThread extends Thread {
 
     ConnectThread(BluetoothAdapter bluetoothAdapter, BluetoothDevice device,
                          IOnSocketConnected socketConnectedListener, DIFFICULTY difficultyToPlay, int level) throws IOException {
-        this.device = device;
         this.bluetoothAdapter = bluetoothAdapter;
         this.difficultyToPlayCode = ConnectionCodes.DifficultyToByteCode(difficultyToPlay);
         this.levelCode = ConnectionCodes.LevelToByteCode(level);
 
+        BluetoothDevice actual = bluetoothAdapter.getRemoteDevice(device.getAddress());
+
         // Get a BluetoothSocket to connect with the given BluetoothDevice.
-        socket = device.createRfcommSocketToServiceRecord(BluetoothConnectionHandler.APP_UUID);
+        socket = actual.createInsecureRfcommSocketToServiceRecord(BluetoothConnectionHandler.APP_UUID);
         this.socketConnectedListener = socketConnectedListener;
     }
 
@@ -49,8 +47,6 @@ public class ConnectThread extends Thread {
             // Sending the difficulty the user choice
             socket.getOutputStream().write(new byte[]{difficultyToPlayCode, levelCode});
 
-            Log.d(TAG, "After writing " + difficultyToPlayCode + " levelCode = " + levelCode);
-
             if(socketConnectedListener != null){
                 // The connection attempt succeeded.
                 // Transferring the socket to the connection handler
@@ -59,10 +55,10 @@ public class ConnectThread extends Thread {
         } catch (IOException connectException) {
             // Unable to connect; close the socket and return.
             try {
-                Log.e(TAG, "Error!!!!!!!!!!!!!!!!", connectException);
+                Log.e("", "Error!", connectException);
                 socket.close();
             } catch (IOException closeException) {
-                Log.e(TAG, "Could not close the client socket", closeException);
+                Log.e("", "Could not close the client socket", closeException);
             }
         }
     }

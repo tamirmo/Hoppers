@@ -26,30 +26,30 @@ class BoardAdapter implements IOnLeafClicked {
     // The time to animate a hop
     private final int HOP_ANIMATION_DURATION_MS = 600;
 
-    private TableLayout gameTable;
     private BoardLeafView[] leaves;
     private IOnLeafClicked leafClickedListener;
+    private IOnHopAnimationEnded hopAnimationEndedListener;
     // Frogs used for the hopping animation:
     private ImageView floatingGreenFrog;
     private ImageView floatingRedFrog;
 
     BoardAdapter(TableLayout board, IOnLeafClicked leafClickedListener,
+                 IOnHopAnimationEnded hopAnimationEndedListener,
                  ImageView floatingGreenFrog, ImageView floatingRedFrog){
         // GameBoardActivity should implement IOnLeafClicked
         this.leafClickedListener = leafClickedListener;
-
-        gameTable = board;
+        this.hopAnimationEndedListener = hopAnimationEndedListener;
         this.floatingGreenFrog = floatingGreenFrog;
         this.floatingRedFrog = floatingRedFrog;
 
         leaves = new BoardLeafView[SWAMP_LEAVES];
 
-        // Gettign all leaves from the table
+        // Getting all leaves from the table
         LeafCoordinate cord;
         for(int i = 0 ; i < leaves.length; i ++){
             cord = new LeafCoordinate(i);
             leaves[i] =
-                    (BoardLeafView) ((ViewGroup)gameTable.getChildAt(cord.getRow())).getChildAt(cord.getColumn());
+                    (BoardLeafView) ((ViewGroup)board.getChildAt(cord.getRow())).getChildAt(cord.getColumn());
             leaves[i].setLeafClickedListener(this);
         }
     }
@@ -134,6 +134,10 @@ class BoardAdapter implements IOnLeafClicked {
                     updateBoard();
                     floatingGreenFrog.setVisibility(View.GONE);
                     floatingRedFrog.setVisibility(View.GONE);
+
+                    if(hopAnimationEndedListener != null){
+                        hopAnimationEndedListener.onHopAnimationEnded();
+                    }
                 }
                 @Override
                 public void onAnimationCancel(Animator animation) {}

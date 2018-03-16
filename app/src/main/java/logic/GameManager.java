@@ -3,7 +3,6 @@ package logic;
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -11,7 +10,6 @@ import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import storage.LevelRecord;
 import storage.LevelsDbHelper;
 
 /**
@@ -39,8 +37,6 @@ public class GameManager {
     private Timer playTimeTimer;
     private IOnGameDurationChanged gameDurationChangedListener;
     private LevelsDbHelper levelsDbHelper;
-    // Indicating if the current game is with an opponent
-    private boolean isRemoteOpponent;
     private Random rand;
 
     // An iterator for moving forward and backward in the current level solution
@@ -53,383 +49,16 @@ public class GameManager {
         return instance;
     }
 
-    public Level getCurrLevel(){
-        return currLevel;
-    }
-
     public void setGameDurationChangedListener(IOnGameDurationChanged listener){
         this.gameDurationChangedListener = listener;
-    }
-
-    public boolean isRemoteOpponent() {
-        return isRemoteOpponent;
     }
 
     public List<Level> getLevels(){
         return levels;
     }
 
-    private void initializeBeginner(){
-        int[] greenFrogsLocations = new int[3];
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 1);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(2, 2);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(4, 1);
-
-        List<Hop> solution = new ArrayList<>();
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(0, 2), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(4, 2), new LeafCoordinate(2, 2)));
-        solution.add(new Hop(new LeafCoordinate(4, 2), new LeafCoordinate(4, 0), new LeafCoordinate(4, 1)));
-
-        Level level = new Level(DIFFICULTY.BEGINNER,
-                1,
-                LeafCoordinate.getCellIndex(0, 0),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(1, 0);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(2, 1);
-
-        solution.clear();
-        solution.add(new Hop(new LeafCoordinate(3, 0), new LeafCoordinate(1, 1), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(2, 1), new LeafCoordinate(1, 0)));
-        solution.add(new Hop(new LeafCoordinate(1, 1), new LeafCoordinate(3, 0), new LeafCoordinate(2, 1)));
-
-        level = new Level(DIFFICULTY.BEGINNER,
-                2,
-                LeafCoordinate.getCellIndex(3, 0),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-
-        greenFrogsLocations = new int[4];
-
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(1, 0);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(1, 1);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(0, 2);
-
-        solution.clear();
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(2, 1), new LeafCoordinate(1, 0)));
-        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(2, 1), new LeafCoordinate(1, 1)));
-        solution.add(new Hop(new LeafCoordinate(2, 2), new LeafCoordinate(2, 0), new LeafCoordinate(2, 1)));
-
-        level = new Level(DIFFICULTY.BEGINNER,
-                3,
-                LeafCoordinate.getCellIndex(2, 0),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                true);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-
-        greenFrogsLocations = new int[4];
-
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(1, 0);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(2, 0);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(1, 1);
-
-        solution.clear();
-        solution.add(new Hop(new LeafCoordinate(2, 1), new LeafCoordinate(0, 2), new LeafCoordinate(1, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(2, 1), new LeafCoordinate(1, 0)));
-        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(4, 2), new LeafCoordinate(2, 2)));
-
-        level = new Level(DIFFICULTY.BEGINNER,
-                4,
-                LeafCoordinate.getCellIndex(2, 1),
-                greenFrogsLocations,
-                solution,
-                0,
-                12,
-                11,
-                true);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-
-        greenFrogsLocations = new int[4];
-
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(2, 0);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(3, 0);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(2, 1);
-
-        solution.clear();
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(4, 0), new LeafCoordinate(2, 0)));
-        solution.add(new Hop(new LeafCoordinate(2, 2), new LeafCoordinate(2, 0), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(2, 1), new LeafCoordinate(3, 0)));
-        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
-
-        level = new Level(DIFFICULTY.BEGINNER,
-                5,
-                LeafCoordinate.getCellIndex(2, 2),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-
-        greenFrogsLocations = new int[4];
-
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(2, 1);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(2, 2);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(3, 0);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(4, 1);
-
-        solution.clear();
-        solution.add(new Hop(new LeafCoordinate(4, 1), new LeafCoordinate(2, 0), new LeafCoordinate(3, 0)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(4, 0), new LeafCoordinate(2, 0)));
-        solution.add(new Hop(new LeafCoordinate(2, 2), new LeafCoordinate(2, 0), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(0, 0), new LeafCoordinate(2, 0)));
-
-        level = new Level(DIFFICULTY.BEGINNER,
-                6,
-                LeafCoordinate.getCellIndex(0, 0),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-
-        greenFrogsLocations = new int[5];
-
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 1);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(1, 0);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(2, 0);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(4, 0);
-        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(4, 1);
-
-        solution.clear();
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(0, 2), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(0, 0), new LeafCoordinate(2, 0)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(2, 1), new LeafCoordinate(1, 0)));
-        solution.add(new Hop(new LeafCoordinate(4, 1), new LeafCoordinate(0, 1), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(0, 0), new LeafCoordinate(0, 1)));
-
-        level = new Level(DIFFICULTY.BEGINNER,
-                7,
-                LeafCoordinate.getCellIndex(0, 0),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-    }
-
-    private void initializeIntermediate(){
-        int[] greenFrogsLocations = new int[5];
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(1, 0);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(3, 0);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(4, 1);
-        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(1, 1);
-
-        List<Hop> solution = new ArrayList<>();
-        solution.add(new Hop(new LeafCoordinate(4, 1), new LeafCoordinate(2, 0), new LeafCoordinate(3, 0)));
-        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(0, 1), new LeafCoordinate(1, 0)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(0, 2), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(2, 1), new LeafCoordinate(1, 1)));
-        solution.add(new Hop(new LeafCoordinate(3, 1), new LeafCoordinate(1, 0), new LeafCoordinate(2, 1)));
-
-        Level level = new Level(DIFFICULTY.INTERMEDIATE,
-                12,
-                LeafCoordinate.getCellIndex(3, 1),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-
-        greenFrogsLocations = new int[6];
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(0, 1);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(1, 1);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(2, 0);
-        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(2, 2);
-        greenFrogsLocations[5] = LeafCoordinate.getCellIndex(3, 0);
-
-        solution = new ArrayList<>();
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(0, 2), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(2, 2), new LeafCoordinate(0, 1), new LeafCoordinate(1, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(0, 0), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(4, 0), new LeafCoordinate(2, 0)));
-        solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(2, 1), new LeafCoordinate(3, 0)));
-        solution.add(new Hop(new LeafCoordinate(4, 1), new LeafCoordinate(0, 1), new LeafCoordinate(2, 1)));
-
-        level = new Level(DIFFICULTY.INTERMEDIATE,
-                13,
-                LeafCoordinate.getCellIndex(4, 1),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-    }
-
-    private void initializeAdvanced(){
-        int[] greenFrogsLocations = new int[7];
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(1, 0);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(2, 0);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(2, 1);
-        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(3, 1);
-        greenFrogsLocations[5] = LeafCoordinate.getCellIndex(4, 1);
-        greenFrogsLocations[6] = LeafCoordinate.getCellIndex(4, 2);
-
-        List<Hop> solution = new ArrayList<>();
-        solution.add(new Hop(new LeafCoordinate(3, 0), new LeafCoordinate(1, 1), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(2, 1), new LeafCoordinate(1, 0)));
-        solution.add(new Hop(new LeafCoordinate(3, 1), new LeafCoordinate(1, 0), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(4, 2), new LeafCoordinate(4, 0), new LeafCoordinate(4, 1)));
-        solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(0, 0), new LeafCoordinate(2, 0)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(2, 1), new LeafCoordinate(1, 0)));
-        solution.add(new Hop(new LeafCoordinate(1, 1), new LeafCoordinate(3, 0), new LeafCoordinate(2, 1)));
-
-        Level level = new Level(DIFFICULTY.ADVANCED,
-                21,
-                LeafCoordinate.getCellIndex(3, 0),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-
-        greenFrogsLocations = new int[8];
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(0, 1);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(1, 0);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(1, 1);
-        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(2, 0);
-        greenFrogsLocations[5] = LeafCoordinate.getCellIndex(2, 1);
-        greenFrogsLocations[6] = LeafCoordinate.getCellIndex(3, 1);
-        greenFrogsLocations[7] = LeafCoordinate.getCellIndex(4, 2);
-
-        solution = new ArrayList<>();
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(0, 2), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(2, 2), new LeafCoordinate(0, 1), new LeafCoordinate(1, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(0, 0), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(2, 1), new LeafCoordinate(1, 0)));
-        solution.add(new Hop(new LeafCoordinate(3, 0), new LeafCoordinate(1, 1), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(4, 2), new LeafCoordinate(2, 1), new LeafCoordinate(3, 1)));
-        solution.add(new Hop(new LeafCoordinate(1, 1), new LeafCoordinate(3, 0), new LeafCoordinate(2, 1)));
-
-        level = new Level(DIFFICULTY.ADVANCED,
-                22,
-                LeafCoordinate.getCellIndex(3, 0),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-    }
-
-    private void initializeExpert(){
-        int[] greenFrogsLocations = new int[9];
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(0, 1);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex( 1, 0);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(1, 1);
-        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(2, 1);
-        greenFrogsLocations[5] = LeafCoordinate.getCellIndex(3, 1);
-        greenFrogsLocations[6] = LeafCoordinate.getCellIndex(4, 0);
-        greenFrogsLocations[7] = LeafCoordinate.getCellIndex(4, 1);
-        greenFrogsLocations[8] = LeafCoordinate.getCellIndex(4, 2);
-
-        List<Hop> solution = new ArrayList<>();
-        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(0, 2), new LeafCoordinate(0, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(2, 1), new LeafCoordinate(1, 1)));
-        solution.add(new Hop(new LeafCoordinate(2, 2), new LeafCoordinate(2, 0), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(4, 2), new LeafCoordinate(2, 1), new LeafCoordinate(3, 1)));
-        solution.add(new Hop(new LeafCoordinate(1, 0), new LeafCoordinate(3, 1), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(4, 2), new LeafCoordinate(4, 1)));
-        solution.add(new Hop(new LeafCoordinate(4, 2), new LeafCoordinate(2, 1), new LeafCoordinate(3, 1)));
-        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
-
-
-        Level level = new Level(DIFFICULTY.EXPERT,
-                31,
-                LeafCoordinate.getCellIndex(2, 0),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
-
-        greenFrogsLocations = new int[9];
-        greenFrogsLocations[0] = LeafCoordinate.getCellIndex(0, 0);
-        greenFrogsLocations[1] = LeafCoordinate.getCellIndex(2, 0);
-        greenFrogsLocations[2] = LeafCoordinate.getCellIndex(4, 0);
-        greenFrogsLocations[3] = LeafCoordinate.getCellIndex(1, 0);
-        greenFrogsLocations[4] = LeafCoordinate.getCellIndex(3, 0);
-        greenFrogsLocations[5] = LeafCoordinate.getCellIndex(1, 1);
-        greenFrogsLocations[6] = LeafCoordinate.getCellIndex(3, 1);
-        greenFrogsLocations[7] = LeafCoordinate.getCellIndex(0, 2);
-        greenFrogsLocations[8] = LeafCoordinate.getCellIndex(2, 2);
-
-        solution = new ArrayList<>();
-        solution.add(new Hop(new LeafCoordinate(2, 1), new LeafCoordinate(4, 2), new LeafCoordinate(3, 1)));
-        solution.add(new Hop(new LeafCoordinate(4, 0), new LeafCoordinate(2, 1), new LeafCoordinate(3, 0)));
-        solution.add(new Hop(new LeafCoordinate(1, 0), new LeafCoordinate(3, 1), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(2, 1), new LeafCoordinate(1, 1)));
-        solution.add(new Hop(new LeafCoordinate(3, 1), new LeafCoordinate(1, 0), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 0), new LeafCoordinate(2, 1), new LeafCoordinate(1, 0)));
-        solution.add(new Hop(new LeafCoordinate(4, 2), new LeafCoordinate(0, 2), new LeafCoordinate(2, 2)));
-        solution.add(new Hop(new LeafCoordinate(2, 0), new LeafCoordinate(2, 2), new LeafCoordinate(2, 1)));
-        solution.add(new Hop(new LeafCoordinate(0, 2), new LeafCoordinate(4, 2), new LeafCoordinate(2, 2)));
-
-        level = new Level(DIFFICULTY.EXPERT,
-                32,
-                LeafCoordinate.getCellIndex(2, 1),
-                greenFrogsLocations,
-                solution,
-                0,
-                0,
-                0,
-                false);
-
-        levelsDbHelper.addLevel(level.toLevelRecord());
+    public int getMaxLevelId(){
+        return levels.get(levels.size() -1).getId();
     }
 
     public void initializeManager(Context context){
@@ -439,32 +68,33 @@ public class GameManager {
         swamp = new Swamp();
         hops = new Stack<>();
 
-        levelsDbHelper.dropDb();
-
-        initializeBeginner();
-        initializeIntermediate();
-        initializeAdvanced();
-        initializeExpert();
-
         // Pulling all levels from the DB
-        LevelRecord[] levelRecords = levelsDbHelper.getLevels();
-
-        // Converting the levels from DB to Level objects:
-        levels = new LinkedList<>();
-        for(LevelRecord record: levelRecords){
-            levels.add(new Level(record));
-        }
+        levels = new LevelsLoader(levelsDbHelper).getLevels();
     }
 
-    public void startGame(int levelId, boolean isRemoteOpponent){
-        currLevel = levels.get(levelId - 1);
+    public void startGame(int levelId){
+        currLevel = getLevelById(levelId);
         seconds = minutes = hours = 0;
-        this.isRemoteOpponent = isRemoteOpponent;
         hops.clear();
 
         swamp.setLevel(currLevel);
 
         startTimer();
+    }
+
+    /**
+     * Returning the level with the given id from the list of levels loaded in the manager.
+     * @param id The id to search the level for.
+     * @return The Level object with the id given.
+     */
+    private Level getLevelById(int id){
+        Level level = null;
+        for(Level currLevel : levels){
+            if(currLevel.getId() == id){
+                level = currLevel;
+            }
+        }
+        return level;
     }
 
     /**
@@ -478,12 +108,12 @@ public class GameManager {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                levelsDbHelper.updateSolutionViewedById(currLevel.getId(), true);
+                levelsDbHelper.updateSolutionViewedById(currLevel.getId());
             }
         }).start();
 
         // Updating the local level
-        currLevel.setSolutionViewed(true);
+        currLevel.setSolutionViewed();
     }
 
     public Hop nextSolutionStep(){
@@ -756,12 +386,13 @@ public class GameManager {
     private boolean isGameDurationRecord(){
         boolean isRecord = false;
 
-        if(hours > currLevel.getRecordHours() ||
+        if(!currLevel.isSolved() ||
+                (hours < currLevel.getRecordHours() ||
                 // If the hours are the same, checking minutes
                 (hours == currLevel.getRecordHours() &&
-                        (minutes > currLevel.getRecordMinutes() ||
+                        (minutes < currLevel.getRecordMinutes() ||
                                 // If minutes are the same, checking the seconds
-                                (minutes == currLevel.getRecordMinutes() && seconds > currLevel.getRecordSeconds())) )){
+                                (minutes == currLevel.getRecordMinutes() && seconds < currLevel.getRecordSeconds())) ))){
             isRecord = true;
         }
 

@@ -14,7 +14,8 @@
         android:supportsRtl="false"
         android:testOnly="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeScreen"
+        <activity
+            android:name=".HomeScreen"
             android:configChanges="orientation"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait">
@@ -24,15 +25,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".bluetooth.BluetoothActivity"
+        <activity
+            android:name=".bluetooth.BluetoothActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" />
-        <activity android:name=".levels.LevelsActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:name=".levels.LevelsActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" />
-        <activity android:name=".board.GameBoardActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:name=".board.GameBoardActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
+        <activity android:name=".end.GameOverActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
     </application>
 
 </manifest>

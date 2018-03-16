@@ -7,7 +7,7 @@ import logic.DIFFICULTY;
  * A class for constants sent via the bluetooth channel.
  */
 
-public class ConnectionCodes {
+class ConnectionCodes {
     // Indicating a challenge game accepted
     final static byte ACCEPT = 4;
     final static byte FINISHED = 5;
