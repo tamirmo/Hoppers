@@ -1,6 +1,7 @@
 package hoppers.com.tamir.hoopers.levels;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,7 +102,7 @@ class LevelsAdapter extends RecyclerView.Adapter<LevelsAdapter.LevelViewHolder> 
     class LevelViewHolder extends RecyclerView.ViewHolder {
         TextView number, record;
         ImageView solutionViewed, frog;
-        RelativeLayout mainLayout;
+        ConstraintLayout mainLayout;
 
         LevelViewHolder(View view) {
             super(view);

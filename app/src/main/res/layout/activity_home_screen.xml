@@ -1,102 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hoppers.com.tamir.hoopers.HomeScreen"
-    android:background="@color/app_background">
+    android:background="@color/app_background"
+    tools:context="hoppers.com.tamir.hoopers.HomeScreen">
 
     <ImageView
         android:id="@+id/leaf_center_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/leaf_home_screen2"
-        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:paddingTop="10dp"
-        android:layout_marginRight="7dp"
-        android:layout_centerVertical="true"/>
+        android:src="@drawable/leaf_home_screen2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/leaf_home_screen"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_alignParentLeft="true"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="8dp"
+        android:src="@drawable/leaf_home_screen" />
 
     <ImageView
+        android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/leaf_home_screen"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-20dp"
-        android:layout_marginLeft="20dp"/>
+        android:src="@drawable/logo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo"
-        android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/leaf_home_screen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintVertical_bias="1.0" />
+
     <FrameLayout
         android:id="@+id/home_screen_loading_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="70dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginLeft="40dp">
-        <LinearLayout
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9">
+
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/home_screen_buttons_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-            <LinearLayout
+            android:layout_marginBottom="20dp">
+
+            <ImageButton
+                android:id="@+id/multiPlayerImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/multiPlayerLayout"
-                android:orientation="vertical"
-                android:layout_marginRight="30dp">
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@null"
+                android:src="@drawable/multiplayer"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.30"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                <ImageButton
-                    android:id="@+id/multiPlayerImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/multiplayer"
-                    android:background="@null"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/multi_player_txt"
-                    android:textSize="18sp"
-                    android:textColor="@color/text_color"
-                    android:layout_gravity="center_horizontal"/>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:text="@string/multi_player_txt"
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/multiPlayerImage"
+                app:layout_constraintEnd_toEndOf="@+id/multiPlayerImage"
+                app:layout_constraintTop_toBottomOf="@+id/multiPlayerImage" />
 
-                <ImageButton
-                    android:id="@+id/singlePlayerImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/single_player"
-                    android:background="@null"/>
+            <ImageButton
+                android:id="@+id/singlePlayerImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@null"
+                android:src="@drawable/single_player"
+                app:layout_constraintStart_toEndOf="@id/multiPlayerImage"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/single_player_txt"
-                    android:textSize="18sp"
-                    android:textColor="@color/text_color"
-                    android:layout_gravity="center_horizontal"/>
-            </LinearLayout>
-        </LinearLayout>
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:text="@string/single_player_txt"
+                android:textColor="@color/text_color"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/singlePlayerImage"
+                app:layout_constraintHorizontal_bias="0.50"
+                app:layout_constraintStart_toStartOf="@+id/singlePlayerImage"
+                app:layout_constraintTop_toBottomOf="@+id/singlePlayerImage" />
+
+        </android.support.constraint.ConstraintLayout>
+
         <LinearLayout
             android:id="@+id/loading_layout"
             android:layout_width="match_parent"
@@ -104,37 +141,46 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical">
+
             <ProgressBar
                 android:id="@+id/indeterminateBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="7dp"
-                android:background="@drawable/progress_background"/>
+                android:background="@drawable/progress_background" />
+
             <TextView
                 android:id="@+id/loading_game_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/loading_game_text"
-                android:textSize="30sp"
-                android:textColor="@color/text_color"/>
+                android:textColor="@color/text_color"
+                android:textSize="30sp" />
         </LinearLayout>
     </FrameLayout>
+
     <ImageView
         android:id="@+id/home_screen_green_frog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@id/home_screen_loading_frame"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
         android:layout_marginBottom="20dp"
-        android:layout_above="@id/home_screen_loading_frame"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.65"/>
 
     <ImageView
         android:id="@+id/home_screen_red_frog"
-        android:layout_marginBottom="-10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_above="@id/leaf_center_right"/>
+        android:layout_above="@id/leaf_center_right"
+        android:layout_marginBottom="-10dp"
+        app:layout_constraintVertical_bias="0.35"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

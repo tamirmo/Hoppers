@@ -34,12 +34,12 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
     public static final String LEVEL_NUM_KEY = "LEVEL_NUM";
     public static final String IS_BLUETOOTH_GAME_KEY = "IS_BLUETOOTH_GAME";
 
+    private TextView timePlayedHeader;
     private TextView timePlayed;
     private FrameLayout solutionFrame;
     private RelativeLayout solutionNavigationLayout;
     private LinearLayout viewSolutionLayout;
     private ImageButton undoButton;
-    private LinearLayout timePlayedLayout;
     private BoardAdapter boardAdapter;
     private MediaPlayer hopPlayer;
     private int levelNum;
@@ -63,7 +63,7 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
         solutionFrame = (FrameLayout) findViewById(R.id.solution_frame);
         solutionNavigationLayout = (RelativeLayout) findViewById(R.id.solution_navigation_layout);
         undoButton = (ImageButton) findViewById(R.id.undo_button);
-        timePlayedLayout = (LinearLayout) findViewById(R.id.time_played_layout);
+        timePlayedHeader = (TextView) findViewById(R.id.time_played_header);
 
         findViewById(R.id.previous_solution_step_btn).setOnClickListener(this);
         findViewById(R.id.next_solution_step_btn).setOnClickListener(this);
@@ -127,7 +127,8 @@ public class GameBoardActivity extends AppCompatActivity implements View.OnClick
             if (view.getId() == R.id.view_solution_btn) {
                 GameManager.getInstance().startShowSolution();
                 // No need to display time anymore
-                timePlayedLayout.setVisibility(View.GONE);
+                timePlayedHeader.setVisibility(View.GONE);
+                timePlayed.setVisibility(View.GONE);
                 // When viewing solution,
                 // undo button should not be active
                 undoButton.setVisibility(View.GONE);

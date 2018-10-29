@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import hoppers.com.tamir.hoopers.R;
@@ -19,11 +18,10 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
 
     private ImageView gameOverImage;
     private TextView gameOverText;
-    private LinearLayout nextLevelLayout;
-    private LinearLayout finishedTimeLayout;
     private TextView nextLevelIdText;
     private TextView finishedTimeText;
     private int nextLevelId;
+    private TextView tryNextLevelTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +29,7 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_game_over);
         gameOverImage = (ImageView) findViewById(R.id.game_over_image);
         gameOverText = (TextView) findViewById(R.id.game_over_text);
-        nextLevelLayout = (LinearLayout) findViewById(R.id.next_level_layout);
-        finishedTimeLayout = (LinearLayout) findViewById(R.id.finished_time_layout);
+        tryNextLevelTextView = (TextView) findViewById(R.id.try_next_level_text_view);
         nextLevelIdText = (TextView) findViewById(R.id.next_level_id);
         finishedTimeText = (TextView) findViewById(R.id.finished_time);
         (findViewById(R.id.next_level_button)).setOnClickListener(this);
@@ -51,8 +48,10 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
     private void setLosingView(){
         gameOverImage.setImageResource(R.drawable.crying_green_frog);
         gameOverText.setText(R.string.losing_text);
-        nextLevelLayout.setVisibility(View.GONE);
-        finishedTimeLayout.setVisibility(View.GONE);
+        nextLevelIdText.setText(String.valueOf(nextLevelId));
+        finishedTimeText.setVisibility(View.GONE);
+        tryNextLevelTextView.setVisibility(View.GONE);
+        nextLevelIdText.setVisibility(View.GONE);
     }
 
     private void setWinningView(String finishedTime){
@@ -62,12 +61,13 @@ public class GameOverActivity extends AppCompatActivity implements View.OnClickL
         // Checking if there is a next level
         if(nextLevelId != NO_NEXT_LEVEL_ID) {
             // Showing next level layout with the next level id
-            nextLevelLayout.setVisibility(View.VISIBLE);
+            nextLevelIdText.setVisibility(View.VISIBLE);
             nextLevelIdText.setText(String.valueOf(nextLevelId));
+            tryNextLevelTextView.setVisibility(View.VISIBLE);
         }
 
         // Setting the finished time for the ended game
-        finishedTimeLayout.setVisibility(View.VISIBLE);
+        finishedTimeText.setVisibility(View.VISIBLE);
         finishedTimeText.setText(finishedTime);
     }
 

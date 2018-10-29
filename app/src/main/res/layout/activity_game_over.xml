@@ -1,95 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="hoppers.com.tamir.hoopers.end.GameOverActivity"
-    android:background="@color/app_background">
+    android:background="@color/app_background"
+    tools:context="hoppers.com.tamir.hoopers.end.GameOverActivity">
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo_small"
         android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true"/>
+        android:src="@drawable/logo_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/game_over_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:textSize="30sp"
+        android:layout_margin="8dp"
+        android:text="@string/won_text"
         android:textColor="@color/text_color"
-        android:layout_below="@id/logo"
-        android:layout_centerHorizontal="true"
-        android:text="@string/won_text"/>
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/game_over_image" />
 
     <ImageView
         android:id="@+id/game_over_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/game_over_text"
-        android:src="@drawable/green_frog_game_over_winner"/>
+        android:layout_marginStart="17dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginBottom="25dp"
+        android:src="@drawable/green_frog_game_over_winner"
+        app:layout_constraintBottom_toTopOf="@+id/finished_time_header"
+        app:layout_constraintStart_toStartOf="@+id/game_over_text" />
 
-    <LinearLayout
-        android:id="@+id/finished_time_layout"
+
+    <TextView
+        android:id="@+id/finished_time_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/game_over_image"
-        android:layout_centerHorizontal="true"
-        android:text="11:00:00">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30sp"
-            android:layout_margin="5dp"
-            android:textColor="@color/text_color"
-            android:text="@string/finished_time"/>
-        <TextView
-            android:id="@+id/finished_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:textSize="30sp"
-            android:textColor="@color/text_color"
-            android:text="11:00:00"/>
-    </LinearLayout>
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/finished_time"
+        android:textColor="@color/text_color"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/finished_time"
+        app:layout_constraintEnd_toEndOf="@+id/game_over_image" />
 
-    <LinearLayout
-        android:id="@+id/next_level_layout"
+    <TextView
+        android:id="@+id/finished_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="15dp">
-        <ImageButton
-            android:id="@+id/next_level_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/next"
-            android:background="@null"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/try_level"
-                android:textSize="17sp"
-                android:textColor="@color/text_color"
-                android:paddingRight="5sp"/>
-            <TextView
-                android:id="@+id/next_level_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:textColor="@color/text_color" />
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="251dp"
+        android:text="11:00:00"
+        android:textColor="@color/text_color"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/finished_time_header" />
 
 
-</RelativeLayout>
+    <ImageButton
+        android:id="@+id/next_level_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="39dp"
+        android:background="@null"
+        android:src="@drawable/next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <TextView
+        android:id="@+id/try_next_level_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="5sp"
+        android:text="@string/try_level"
+        android:textColor="@color/text_color"
+        android:textSize="17sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/next_level_id"
+        app:layout_constraintStart_toStartOf="@+id/next_level_button" />
+
+    <TextView
+        android:id="@+id/next_level_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_color"
+        android:textSize="17sp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/next_level_button"
+        app:layout_constraintStart_toEndOf="@+id/try_next_level_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/next_level_button" />
+
+
+</android.support.constraint.ConstraintLayout>

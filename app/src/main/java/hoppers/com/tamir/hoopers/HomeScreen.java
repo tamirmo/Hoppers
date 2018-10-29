@@ -3,6 +3,7 @@ package hoppers.com.tamir.hoopers;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,7 +24,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     private AnimationDrawable greenFrogAnimation;
     private AnimationDrawable redFrogAnimation;
     private FrameLayout loadingFrame;
-    private LinearLayout buttonsLayout;
+    private ConstraintLayout buttonsLayout;
     private LinearLayout loadingLayout;
 
     @Override
@@ -32,7 +33,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_home_screen);
 
         loadingFrame = (FrameLayout) findViewById(R.id.home_screen_loading_frame);
-        buttonsLayout = (LinearLayout) findViewById(R.id.home_screen_buttons_layout);
+        buttonsLayout = (ConstraintLayout) findViewById(R.id.home_screen_buttons_layout);
         loadingLayout = (LinearLayout) findViewById(R.id.loading_layout);
         ImageButton multiPlayerBtn = (ImageButton) findViewById(R.id.multiPlayerImage);
         ImageButton singlePlayerBtn = (ImageButton) findViewById(R.id.singlePlayerImage);
