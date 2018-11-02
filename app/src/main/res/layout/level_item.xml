@@ -1,81 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/card_view"
+<layout>
+    <data>
+        <variable
+            name="level"
+            type="logic.Level"/>
+        <import type="android.view.View"/>
+        <import type="hoppers.com.tamir.hoopers.levels.LevelsAdapter"/>
+    </data>
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        android:elevation="3dp"
-        card_view:cardCornerRadius="10dp"
-        android:duplicateParentState="true">
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent" android:layout_height="match_parent"
-            android:background="@color/beginner"
-            android:id="@+id/level_item_main_layout"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:elevation="3dp"
+            card_view:cardCornerRadius="10dp"
             android:duplicateParentState="true">
-            <ImageView
-                android:id="@+id/solution_viewed_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/level_solution_viewed"
-                android:duplicateParentState="true"
-                android:layout_margin="5dp"
-                card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintLeft_toLeftOf="parent" />
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent" android:layout_height="match_parent"
+                app:backgroundResource="@{LevelsAdapter.GetDifficultyBackgroundResourceId(level.difficulty)}"
+                android:id="@+id/level_item_main_layout"
+                android:duplicateParentState="true">
+                <ImageView
+                    android:id="@+id/solution_viewed_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/level_solution_viewed"
+                    android:duplicateParentState="true"
+                    android:layout_margin="5dp"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    android:visibility="@{level.isSolutionViewed ? View.VISIBLE : View.GONE}"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/leaf_home_screen"
-                android:textSize="40sp"
-                android:layout_margin="10dp"
-                android:duplicateParentState="true"
-                card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintLeft_toLeftOf="parent"
-                card_view:layout_constraintRight_toRightOf="parent" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/leaf_home_screen"
+                    android:textSize="40sp"
+                    android:layout_margin="10dp"
+                    android:duplicateParentState="true"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent" />
 
-            <TextView
-                android:id="@+id/level_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_color"
-                android:textSize="40sp"
-                android:layout_margin="8dp"
-                android:text="1"
-                android:duplicateParentState="true"
-                card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintLeft_toLeftOf="parent"
-                card_view:layout_constraintRight_toRightOf="parent" />
+                <TextView
+                    android:id="@+id/level_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color"
+                    android:textSize="40sp"
+                    android:layout_margin="8dp"
+                    android:text="@{String.valueOf(level.id)}"
+                    android:duplicateParentState="true"
+                    card_view:layout_constraintTop_toTopOf="parent"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent" />
 
-            <ImageView
-                android:id="@+id/level_frog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/green_frog_levels_winner"
-                android:duplicateParentState="true"
-                card_view:layout_constraintTop_toBottomOf="@id/level_name"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintLeft_toLeftOf="parent"
-                card_view:layout_constraintRight_toRightOf="parent" />
+                <ImageView
+                    android:id="@+id/level_frog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@{level.isSolved ? @drawable/green_frog_levels_winner : @drawable/green_frog_levels}"
+                    android:duplicateParentState="true"
+                    card_view:layout_constraintTop_toBottomOf="@id/level_name"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent" />
 
-            <TextView
-                android:id="@+id/level_record"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_color"
-                android:textSize="20sp"
-                android:layout_marginBottom="10dp"
-                android:text="10:00:00"
-                android:duplicateParentState="true"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@id/level_frog"
-                card_view:layout_constraintLeft_toLeftOf="parent"
-                card_view:layout_constraintRight_toRightOf="parent" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
-</android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:id="@+id/level_record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_color"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="10dp"
+                    android:text='@{"Record: " + level.RecordString}'
+                    android:visibility="@{level.isSolved ? View.VISIBLE : View.INVISIBLE}"
+                    android:duplicateParentState="true"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintTop_toBottomOf="@id/level_frog"
+                    card_view:layout_constraintLeft_toLeftOf="parent"
+                    card_view:layout_constraintRight_toRightOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 import bluetooth.BluetoothConnectionHandler;
 import hoppers.com.tamir.hoopers.bluetooth.BluetoothActivity;
@@ -53,7 +54,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         // At first loading the game:
 
         showLoading();
-        new InitializeGameTask().execute();
+        new InitializeGameTask(this).execute();
     }
 
     @Override
@@ -111,13 +112,19 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
     /**
      * A task initializing the game and moving to the next activity
      */
-    private class InitializeGameTask extends AsyncTask<Void, Void, Void> {
+    private static class InitializeGameTask extends AsyncTask<Void, Void, Void> {
+
+        private WeakReference<HomeScreen> homeScreen;
+
+        InitializeGameTask(HomeScreen homeScreen){
+            this.homeScreen = new WeakReference<>(homeScreen);
+        }
 
         @Override
         protected Void doInBackground(Void... params) {
 
             // Preparing the game
-            GameManager.getInstance().initializeManager(HomeScreen.this);
+            GameManager.getInstance().initializeManager(homeScreen.get());
 
             return null;
         }
@@ -127,7 +134,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
             super.onPostExecute(aVoid);
 
             // Showing the buttons, all ready
-            showButtonsLayout();
+            homeScreen.get().showButtonsLayout();
         }
     }
 }

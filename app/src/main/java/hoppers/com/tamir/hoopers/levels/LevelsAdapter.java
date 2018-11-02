@@ -1,18 +1,17 @@
 package hoppers.com.tamir.hoopers.levels;
 
-import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.List;
 
 import hoppers.com.tamir.hoopers.R;
+import hoppers.com.tamir.hoopers.databinding.LevelItemBinding;
+import logic.DIFFICULTY;
 import logic.Level;
 
 /**
@@ -20,60 +19,34 @@ import logic.Level;
  * An adapter for the levels displayed after choosing difficulty.
  */
 
-class LevelsAdapter extends RecyclerView.Adapter<LevelsAdapter.LevelViewHolder> implements View.OnClickListener {
+public class LevelsAdapter extends RecyclerView.Adapter<LevelsAdapter.LevelViewHolder> implements View.OnClickListener {
     private List<Level> levels;
     private IOnLevelClicked levelClickedListener;
-    private Context context;
 
-    LevelsAdapter(Context context, List<Level> levels, IOnLevelClicked levelClickedListener){
+    LevelsAdapter(List<Level> levels, IOnLevelClicked levelClickedListener){
         this.levels = levels;
         this.levelClickedListener = levelClickedListener;
-        this.context = context;
     }
 
     @Override
-    public LevelViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.level_item, parent, false);
+    public LevelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater =
+                LayoutInflater.from(parent.getContext());
+        //View itemView = DataBindingUtil.inflate(layoutInflater, viewType, parent, false);
+        //View itemView = LayoutInflater.from(parent.getContext())
+        //        .inflate(R.layout.level_item, parent, false);
 
-        return new LevelViewHolder(itemView);
+        LevelItemBinding levelItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.level_item, parent, false);
+
+        return new LevelViewHolder(levelItemBinding.getRoot(), levelItemBinding);
     }
 
-    @Override
-    public void onBindViewHolder(LevelViewHolder levelViewHolder, int position) {
-        // Getting the level in this position
-        Level level = levels.get(position);
-
-        // Setting the level number
-        levelViewHolder.number.setText(String.valueOf(level.getId()));
-
-        // If the solution is viewed, displaying the icon
-        if(level.isSolutionViewed()) {
-            levelViewHolder.solutionViewed.setVisibility(View.VISIBLE);
-        }else{
-            levelViewHolder.solutionViewed.setVisibility(View.INVISIBLE);
-        }
-
-        // Setting frog icon according to the level solved indicator
-        if(level.isSolved()){
-            levelViewHolder.frog.setImageResource(R.drawable.green_frog_levels_winner);
-            levelViewHolder.record.setVisibility(View.VISIBLE);
-            levelViewHolder.record.setText(context.getString(R.string.record) + " " +
-                    level.getRecordString());
-        }else{
-            levelViewHolder.frog.setImageResource(R.drawable.green_frog_levels);
-            levelViewHolder.record.setVisibility(View.INVISIBLE);
-        }
-
-        // Setting the background of the main layout according to the level:
-
+    public static int GetDifficultyBackgroundResourceId(DIFFICULTY difficulty)
+    {
         int levelBackground = R.drawable.beginner_background;
-        switch (level.getDifficulty()){
+        switch (difficulty){
             case ADVANCED:
                 levelBackground = R.drawable.advanced_background;
-                break;
-            case BEGINNER:
-                levelBackground = R.drawable.beginner_background;
                 break;
             case EXPERT:
                 levelBackground = R.drawable.expert_background;
@@ -82,7 +55,17 @@ class LevelsAdapter extends RecyclerView.Adapter<LevelsAdapter.LevelViewHolder> 
                 levelBackground = R.drawable.intermediate_background;
                 break;
         }
-        levelViewHolder.mainLayout.setBackgroundResource(levelBackground);
+
+        return levelBackground;
+    }
+
+    @Override
+    public void onBindViewHolder(LevelViewHolder levelViewHolder, int position) {
+        // Getting the level in this position
+        Level level = levels.get(position);
+
+        levelViewHolder.bind(level);
+
         levelViewHolder.mainLayout.setOnClickListener(this);
         levelViewHolder.mainLayout.setTag(level.getId());
     }
@@ -100,18 +83,18 @@ class LevelsAdapter extends RecyclerView.Adapter<LevelsAdapter.LevelViewHolder> 
     }
 
     class LevelViewHolder extends RecyclerView.ViewHolder {
-        TextView number, record;
-        ImageView solutionViewed, frog;
-        ConstraintLayout mainLayout;
+        final ConstraintLayout mainLayout;
+        final LevelItemBinding levelItemBinding;
 
-        LevelViewHolder(View view) {
+        LevelViewHolder(View view, LevelItemBinding levelItemBinding) {
             super(view);
-            solutionViewed = view.findViewById(R.id.solution_viewed_image);
-            number = view.findViewById(R.id.level_name);
-            frog = view.findViewById(R.id.level_frog);
-            record = view.findViewById(R.id.level_record);
-            mainLayout = view.findViewById(R.id.level_item_main_layout);
+            this.mainLayout = view.findViewById(R.id.level_item_main_layout);
+            this.levelItemBinding = levelItemBinding;
+        }
 
+        void bind(Level level) {
+            levelItemBinding.setLevel(level);
+            levelItemBinding.executePendingBindings();
         }
     }
 }

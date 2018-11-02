@@ -48,7 +48,7 @@ public class ChooseLevelFragment extends Fragment implements IOnLevelClicked {
 
         // Initializing the adapter with a list of the given difficulty's levels
         //and a click listener
-        this.adapter = new LevelsAdapter(getContext(),
+        this.adapter = new LevelsAdapter(
                 GameManager.getInstance().getLevelsByDifficulty(difficulty),
                 this);
 
